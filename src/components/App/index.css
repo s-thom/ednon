@@ -1,0 +1,25 @@
+.App {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (min-width: 720px) {
+  .App {
+    flex-direction: row;
+  }
+}
+
+button {
+  outline: 0;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+.icon svg {
+  height: 1em;
+  width: 1em;
+}
