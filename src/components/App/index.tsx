@@ -13,7 +13,9 @@ import WidgetMap from '../../WidgetMap';
 import Widget from '../Widget';
 import Menu from '../Menu';
 import autobind from '../../../node_modules/autobind-decorator';
-import { generateId } from '../../util';
+import {
+  generateId,
+} from '../../util';
 
 interface IAppState {
   messages: IDisplayMessage[];

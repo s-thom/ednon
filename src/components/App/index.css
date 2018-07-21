@@ -1,4 +1,16 @@
 .App {
   height: 100%;
-  margin: 0.5em;
+}
+
+button {
+  outline: 0;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+.icon svg {
+  height: 1em;
+  width: 1em;
 }
