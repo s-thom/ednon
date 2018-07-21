@@ -9,12 +9,19 @@ import {
   MessageSeverity,
   IDefinition,
 } from '../../types';
+import WidgetMap from '../../WidgetMap';
 import { StorageProvider } from '../StorageProvider';
+import Widget from '../Widget';
+import TimerWidget from '../TimerWidget';
+import Menu from '../Menu';
+import autobind from '../../../node_modules/autobind-decorator';
+import { generateId } from '../../util';
 
 interface IState {
   messages: IDisplayMessage[];
   widgets?: IDefinition[];
 }
+
 
 // tslint:disable-next-line:no-any
 class App extends React.Component<any, IState> {
@@ -43,22 +50,10 @@ class App extends React.Component<any, IState> {
   getListAndSetState() {
     this.storage.getAllWidgets()
       .then((list) => {
-        if (list.length === 0) {
-          this.storage.newWidget('foo', 'timer', {
-            title: 'foo',
-            notes: 'some notes',
-            running: false,
-          })
-            .then(() => {
-              console.log('uh oh');
-              this.getListAndSetState();
-            });
-        } else {
-          this.setState({
-            ...this.state,
-            widgets: list,
-          });
-        }
+        this.setState({
+          ...this.state,
+          widgets: list,
+        });
       });
   }
 
@@ -78,10 +73,36 @@ class App extends React.Component<any, IState> {
     });
   }
 
+  @autobind
+  onNewItemToAdd(type: string) {
+    if (!this.state.widgets) {
+      this.showMessage(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+      return;
+    }
+
+    const list = [...this.state.widgets];
+    const newWidget: IDefinition = {
+      id: generateId(),
+      type,
+      data: (WidgetMap.get(type) || Widget).getDefaultData(),
+    };
+    list.push(newWidget);
+    this.storage.newWidget(newWidget);
+
+    this.setState({
+      ...this.state,
+      widgets: list,
+    });
+  }
+
   render() {
     return (
       <StorageProvider value={this.storage}>
         <div className="App">
+          <Menu
+            widgetTypes={WidgetMap}
+            onNewItemClick={this.onNewItemToAdd}
+          />
           <Grid widgets={this.state.widgets} />
         </div>
       </StorageProvider>

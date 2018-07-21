@@ -4,7 +4,7 @@ import idb, { DB } from 'idb';
 import {
   pReduce,
 } from './util';
-import { IState } from './types';
+import { IState, IDefinition } from './types';
 
 interface IUpgrade {
   from: number;
@@ -44,16 +44,12 @@ export default class StorageHelper {
     );
   }
 
-  newWidget(widgetId: string, type: string, state: IState) {
+  newWidget(def: IDefinition) {
     return this.dbPromise
       .then(db => db.transaction(['widgets'], 'readwrite'))
       .then(async (transaction) => {
         const store = transaction.objectStore('widgets');
-        return store.add({
-          id: widgetId,
-          type,
-          data: state,
-        });
+        return store.add(def);
       });
   }
 

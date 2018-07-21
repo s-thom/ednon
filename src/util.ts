@@ -6,7 +6,7 @@
  * @param length Number of digits the string should be
  * @returns Formatted number
  */
-export function zeroPad(numberToPad: number, length: number) {
+export function zeroPad(numberToPad: number | string, length: number) {
   const numberStr = numberToPad.toString();
   const placeDifference = length - numberStr.length;
 
@@ -143,4 +143,15 @@ export function createInactivityTimeout(fn: (...args: any[]) => any, timeout: nu
  */
 export function escapeRegExp(str: string) {
   return str.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
+}
+
+const ID_BASE = 16;
+const ID_DIGITS = 6;
+const maxId = Math.pow(ID_BASE, ID_DIGITS);
+export function generateId() {
+  return zeroPad(
+    Math.floor(Math.random() * maxId)
+      .toString(ID_BASE),
+    ID_DIGITS,
+  );
 }
