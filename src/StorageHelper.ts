@@ -19,7 +19,16 @@ const DB_NAME = 'ednon';
 const DB_VERSION = 1;
 
 export default class StorageHelper {
+  private static instance: StorageHelper;
   private readonly dbPromise: Promise<DB>;
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new StorageHelper();
+    }
+
+    return this.instance;
+  }
 
   constructor() {
     this.dbPromise = idb.open(DB_NAME, DB_VERSION, (db) => {

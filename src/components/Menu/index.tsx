@@ -1,11 +1,6 @@
 import * as React from 'react';
 import './index.css';
-import TimerWidget from '../TimerWidget';
-import { StorageConsumer } from '../StorageProvider';
 import Widget from '../Widget';
-import autobind from '../../../node_modules/autobind-decorator';
-import StorageHelper from '../../StorageHelper';
-import { IDefinition, IState } from '../../types';
 
 interface IMenuProps {
   widgetTypes: Map<string, typeof Widget>;

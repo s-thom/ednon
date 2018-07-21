@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './index.css';
 import TimerWidget from '../TimerWidget';
-import { StorageConsumer } from '../StorageProvider';
 import Widget from '../Widget';
 import autobind from '../../../node_modules/autobind-decorator';
 import StorageHelper from '../../StorageHelper';
@@ -39,13 +38,9 @@ class Grid extends React.Component<IGridProps> {
 
     return (
       <div className="Grid">
-        <StorageConsumer>
-          {(value) => (
-            (this.props.widgets || []).map(d => this.createWidget(d, value))
-          )}
-        </StorageConsumer>
-
-        <div className="add-new" />
+        {
+          (this.props.widgets || []).map(d => this.createWidget(d))
+        }
       </div>
     );
   }

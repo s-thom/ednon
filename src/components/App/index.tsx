@@ -5,12 +5,11 @@ import logo from '../../assets/logo.svg';
 import Grid from '../Grid';
 import StorageHelper from '../../StorageHelper';
 import {
+  IDefinition,
   IDisplayMessage,
   MessageSeverity,
-  IDefinition,
 } from '../../types';
 import WidgetMap from '../../WidgetMap';
-import { StorageProvider } from '../StorageProvider';
 import Widget from '../Widget';
 import TimerWidget from '../TimerWidget';
 import Menu from '../Menu';
@@ -35,7 +34,7 @@ class App extends React.Component<any, IState> {
       widgets: undefined,
     };
 
-    this.storage = new StorageHelper();
+    this.storage = StorageHelper.getInstance();
     this.storage.ready()
       .then((isReady) => {
         if (!isReady) {
@@ -97,15 +96,15 @@ class App extends React.Component<any, IState> {
 
   render() {
     return (
-      <StorageProvider value={this.storage}>
-        <div className="App">
-          <Menu
-            widgetTypes={WidgetMap}
-            onNewItemClick={this.onNewItemToAdd}
-          />
-          <Grid widgets={this.state.widgets} />
-        </div>
-      </StorageProvider>
+      <div className="App">
+        <Menu
+          widgetTypes={WidgetMap}
+          onNewItemClick={this.onNewItemToAdd}
+        />
+        <Grid
+          widgets={this.state.widgets}
+        />
+      </div>
     );
   }
 }
