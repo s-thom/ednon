@@ -5,7 +5,7 @@ import logo from '../../assets/logo.svg';
 import Grid from '../Grid';
 
 class App extends React.Component {
-  public render() {
+  render() {
     return (
       <div className="App">
         <Grid />

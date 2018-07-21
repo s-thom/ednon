@@ -1,4 +1,5 @@
 import * as React from 'react';
+import autobind from 'autobind-decorator';
 import IntervalRenderer from '../IntervalRenderer';
 import TimerDisplay from '../TimerDisplay';
 // import './index.css';
@@ -17,14 +18,29 @@ class TimerWidget extends React.Component<IDefinition, ITimerState> {
     super(props);
 
     this.state = props.data;
-
-    this.oTC = this.onToggleClick.bind(this);
   }
 
+  @autobind
   onToggleClick() {
     this.setState({
       ...this.state,
       running: !this.state.running,
+    });
+  }
+
+  @autobind
+  onTimerStart(ms) {
+    this.setState({
+      ...this.state,
+      elapsed: ms,
+    });
+  }
+
+  @autobind
+  onTimerStop(ms) {
+    this.setState({
+      ...this.state,
+      elapsed: ms,
     });
   }
 
@@ -33,12 +49,17 @@ class TimerWidget extends React.Component<IDefinition, ITimerState> {
       <div className="TimerWidget">
         <input type="text" name={`${this.props.id}-title`} id={`${this.props.id}-title`} value={this.state.title}/>
         <textarea name={`${this.props.id}-notes`} id={`${this.props.id}-notes`} value={this.state.notes}/>
-        <IntervalRenderer running={this.state.running}>
+        <IntervalRenderer
+          running={this.state.running}
+          onStart={this.onTimerStart}
+          onStop={this.onTimerStop}
+          value={this.state.elapsed}
+        >
           {
             (ms) => <TimerDisplay ms={ms} />
           }
         </IntervalRenderer>
-        <button type="button" onClick={this.oTC}>Toggle</button>
+        <button type="button" onClick={this.onToggleClick}>Toggle</button>
       </div>
     );
   }

@@ -2,17 +2,20 @@ import * as React from 'react';
 
 interface IProps {
   children: (ms: number) => JSX.Element;
+  value?: number;
   running?: boolean;
+  onStart?: (ms: number) => void;
+  onStop?: (ms: number) => void;
 }
+
+type HandleFunction = () => any;
 
 interface IState {
   start: number;
   elapsed: number;
   prev: number;
-  handler: () => any;
+  handler: HandleFunction;
 }
-
-type HandleFunction = () => any;
 
 let animFrameHandle: number;
 const functions: HandleFunction[] = [];
@@ -49,6 +52,11 @@ function removeLoop(fn: HandleFunction) {
   }
 
   functions.splice(index, 1);
+
+  if (functions.length === 0) {
+    cancelAnimationFrame(animFrameHandle);
+    animFrameHandle = 0;
+  }
 }
 
 class IntervalRenderer extends React.Component<IProps, IState> {
@@ -86,10 +94,16 @@ class IntervalRenderer extends React.Component<IProps, IState> {
 
     this.setState({
       ...this.state,
+      prev: this.props.value !== undefined ? this.props.value : this.state.prev || 0,
+      elapsed: this.state.elapsed || 0,
       start: Date.now(),
     });
 
     addLoop(this.state.handler);
+
+    if (this.props.onStart) {
+      this.props.onStart(this.state.elapsed);
+    }
   }
 
   stopTimer() {
@@ -105,10 +119,14 @@ class IntervalRenderer extends React.Component<IProps, IState> {
       start: 0,
       prev: this.state.elapsed,
     });
+
+    if (this.props.onStop) {
+      this.props.onStop(this.state.elapsed);
+    }
   }
 
-  componentWillReceiveProps(nextProps: IProps, nextContext) {
-    if (nextProps.running === false) {
+  componentDidUpdate() {
+    if (this.props.running === false) {
       this.stopTimer();
     } else {
       this.startTimer();
