@@ -11,7 +11,6 @@ import {
 } from '../../types';
 import WidgetMap from '../../WidgetMap';
 import Widget from '../Widget';
-import TimerWidget from '../TimerWidget';
 import Menu from '../Menu';
 import autobind from '../../../node_modules/autobind-decorator';
 import { generateId } from '../../util';
@@ -94,6 +93,22 @@ class App extends React.Component<any, IState> {
     });
   }
 
+  @autobind
+  onItemToRemove(id: string) {
+    if (!this.state.widgets) {
+      this.showMessage(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+      return;
+    }
+
+    const list = this.state.widgets.filter(d => d.id !== id);
+    this.storage.removeWidget(id);
+
+    this.setState({
+      ...this.state,
+      widgets: list,
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -103,6 +118,7 @@ class App extends React.Component<any, IState> {
         />
         <Grid
           widgets={this.state.widgets}
+          onWidgetRemove={this.onItemToRemove}
         />
       </div>
     );

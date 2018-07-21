@@ -1,10 +1,12 @@
 import * as React from 'react';
+import ReactSVG from 'react-svg';
 import './index.css';
 import TimerWidget from '../TimerWidget';
 import Widget from '../Widget';
 import autobind from '../../../node_modules/autobind-decorator';
 import StorageHelper from '../../StorageHelper';
 import { IDefinition, IState } from '../../types';
+import removeIcon from '../../assets/sharp-timer-24px.svg';
 
 const widgetTypes = {
   timer: TimerWidget,
@@ -12,20 +14,31 @@ const widgetTypes = {
 
 interface IGridProps {
   widgets?: IDefinition[];
+  onWidgetRemove: (id: string) => void;
 }
 
 class Grid extends React.Component<IGridProps> {
 
-  createWidget(def: IDefinition, storage) {
+  createWidget(def: IDefinition) {
     const Comp: typeof Widget = widgetTypes[def.type];
     return (
-      <Comp
+      <div
+        className="wrapper"
         key={def.id}
-        storage={storage}
-        id={def.id}
-        type={def.type}
-        data={def.data}
-      />
+      >
+        <button
+          className="remove-button"
+          onClick={() => this.props.onWidgetRemove(def.id)}
+        >
+          <ReactSVG path={removeIcon} className="icon"></ReactSVG>
+        </button>
+        <Comp
+          id={def.id}
+          type={def.type}
+          data={def.data}
+        />
+      </div>
+
     );
   }
 

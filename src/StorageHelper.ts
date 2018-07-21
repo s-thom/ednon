@@ -84,4 +84,14 @@ export default class StorageHelper {
       });
   }
 
+  removeWidget(widgetId: string) {
+    return this.dbPromise
+      .then(db => db.transaction(['widgets'], 'readwrite'))
+      .then(async (transaction) => {
+        const store = transaction.objectStore('widgets');
+        await store.delete(widgetId);
+        return;
+      });
+  }
+
 }
