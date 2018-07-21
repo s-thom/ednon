@@ -44,11 +44,40 @@ class TimerWidget extends React.Component<IDefinition, ITimerState> {
     });
   }
 
+  @autobind
+  onTitleChange(event: React.FormEvent) {
+    this.setState({
+      ...this.state,
+      title: (event.target as any).value,
+    });
+  }
+
+  @autobind
+  onNotesChange(event: React.FormEvent) {
+    this.setState({
+      ...this.state,
+      notes: (event.target as any).value,
+    });
+  }
+
   render() {
     return (
       <div className="TimerWidget">
-        <input className="title" type="text" name={`${this.props.id}-title`} id={`${this.props.id}-title`} value={this.state.title}/>
-        <textarea className="notes" name={`${this.props.id}-notes`} id={`${this.props.id}-notes`} value={this.state.notes}/>
+        <input
+          className="title"
+          type="text"
+          name={`${this.props.id}-title`}
+          id={`${this.props.id}-title`}
+          value={this.state.title}
+          onChange={this.onTitleChange}
+        />
+        <textarea
+          className="notes"
+          name={`${this.props.id}-notes`}
+          id={`${this.props.id}-notes`}
+          value={this.state.notes}
+          onChange={this.onNotesChange}
+        />
         <IntervalRenderer
           running={this.state.running}
           onStart={this.onTimerStart}
