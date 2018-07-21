@@ -1,4 +1,6 @@
 .Grid {
+  flex-grow: 1;
+  height: fit-content;
   margin: 0.3em;
   display: grid;
   grid-template-columns: repeat(1, 1fr);

@@ -50,3 +50,27 @@
 .Menu .menu-item.active .item-title {
   text-decoration: underline;
 }
+
+@media (min-width: 720px) {
+  .Menu,
+  .Menu .menu-section {
+    flex-direction: column;
+  }
+
+  .Menu .menu-section {
+    padding: 0.2em 0;
+  }
+
+  .Menu .menu-section:first-child {
+    padding-top: 0;
+  }
+
+  .Menu .menu-section:last-child {
+    padding-bottom: 0;
+  }
+
+  .Menu .menu-section:not(:first-child) {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
