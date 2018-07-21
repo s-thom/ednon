@@ -3,6 +3,8 @@ import autobind from 'autobind-decorator';
 import IntervalRenderer from '../IntervalRenderer';
 import TimerDisplay from '../TimerDisplay';
 import './index.css';
+import { IProps } from '../../types';
+import Widget from '../Widget';
 
 interface ITimerState {
   title: string;
@@ -11,10 +13,8 @@ interface ITimerState {
   running: boolean;
 }
 
-class TimerWidget extends React.Component<IDefinition, ITimerState> {
-  private readonly oTC: () => void;
-
-  constructor(props: IDefinition) {
+class TimerWidget extends Widget<ITimerState> {
+  constructor(props: IProps<ITimerState>) {
     super(props);
 
     this.state = props.data;
