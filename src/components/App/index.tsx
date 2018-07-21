@@ -1,18 +1,17 @@
 import * as React from 'react';
 import './index.css';
 
-import logo from '../../assets/logo.svg';
 import Grid from '../Grid';
 import StorageHelper from '../../StorageHelper';
+import WidgetMap from '../../WidgetMap';
+import Widget from '../../widgets/Widget';
+import Menu from '../Menu';
+import autobind from 'autobind-decorator';
 import {
   IDefinition,
   IDisplayMessage,
   MessageSeverity,
 } from '../../types';
-import WidgetMap from '../../WidgetMap';
-import Widget from '../Widget';
-import Menu from '../Menu';
-import autobind from '../../../node_modules/autobind-decorator';
 import {
   generateId,
 } from '../../util';
@@ -130,6 +129,7 @@ class App extends React.Component<any, IAppState> {
         />
         <Grid
           widgets={this.state.widgets}
+          widgetTypes={WidgetMap}
           onWidgetRemove={this.onItemToRemove}
           showRemoveIcons={this.state.editing}
         />

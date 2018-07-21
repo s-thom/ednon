@@ -1,8 +1,8 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import autobind from 'autobind-decorator';
-import IntervalRenderer from '../IntervalRenderer';
-import TimerDisplay from '../TimerDisplay';
+import IntervalRenderer from './IntervalRenderer';
+import TimerDisplay from './TimerDisplay';
 import './index.css';
 import { IProps } from '../../types';
 import Widget from '../Widget';
