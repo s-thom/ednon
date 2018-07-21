@@ -6,7 +6,7 @@ import Widget from '../Widget';
 import autobind from '../../../node_modules/autobind-decorator';
 import StorageHelper from '../../StorageHelper';
 import { IDefinition, IState } from '../../types';
-import removeIcon from '../../assets/sharp-timer-24px.svg';
+import removeIcon from '../../assets/sharp-close-24px.svg';
 
 const widgetTypes = {
   timer: TimerWidget,
@@ -14,6 +14,7 @@ const widgetTypes = {
 
 interface IGridProps {
   widgets?: IDefinition[];
+  showRemoveIcons: boolean;
   onWidgetRemove: (id: string) => void;
 }
 
@@ -49,8 +50,15 @@ class Grid extends React.Component<IGridProps> {
       );
     }
 
+    const classNames = [
+      'Grid',
+    ];
+    if (this.props.showRemoveIcons) {
+      classNames.push('removing');
+    }
+
     return (
-      <div className="Grid">
+      <div className={classNames.join(' ')}>
         {
           (this.props.widgets || []).map(d => this.createWidget(d))
         }

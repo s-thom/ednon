@@ -15,14 +15,14 @@ import Menu from '../Menu';
 import autobind from '../../../node_modules/autobind-decorator';
 import { generateId } from '../../util';
 
-interface IState {
+interface IAppState {
   messages: IDisplayMessage[];
   widgets?: IDefinition[];
+  editing: boolean;
 }
 
-
 // tslint:disable-next-line:no-any
-class App extends React.Component<any, IState> {
+class App extends React.Component<any, IAppState> {
   private storage: StorageHelper;
 
   constructor(props) {
@@ -31,6 +31,7 @@ class App extends React.Component<any, IState> {
     this.state = {
       messages: [],
       widgets: undefined,
+      editing: false,
     };
 
     this.storage = StorageHelper.getInstance();
@@ -109,16 +110,26 @@ class App extends React.Component<any, IState> {
     });
   }
 
+  @autobind
+  onEditModeChange(mode: boolean) {
+    this.setState({
+      ...this.state,
+      editing: mode,
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <Menu
           widgetTypes={WidgetMap}
           onNewItemClick={this.onNewItemToAdd}
+          onEditModeChange={this.onEditModeChange}
         />
         <Grid
           widgets={this.state.widgets}
           onWidgetRemove={this.onItemToRemove}
+          showRemoveIcons={this.state.editing}
         />
       </div>
     );
