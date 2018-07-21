@@ -2,7 +2,7 @@ import * as React from 'react';
 import autobind from 'autobind-decorator';
 import IntervalRenderer from '../IntervalRenderer';
 import TimerDisplay from '../TimerDisplay';
-// import './index.css';
+import './index.css';
 
 interface ITimerState {
   title: string;
@@ -47,8 +47,8 @@ class TimerWidget extends React.Component<IDefinition, ITimerState> {
   render() {
     return (
       <div className="TimerWidget">
-        <input type="text" name={`${this.props.id}-title`} id={`${this.props.id}-title`} value={this.state.title}/>
-        <textarea name={`${this.props.id}-notes`} id={`${this.props.id}-notes`} value={this.state.notes}/>
+        <input className="title" type="text" name={`${this.props.id}-title`} id={`${this.props.id}-title`} value={this.state.title}/>
+        <textarea className="notes" name={`${this.props.id}-notes`} id={`${this.props.id}-notes`} value={this.state.notes}/>
         <IntervalRenderer
           running={this.state.running}
           onStart={this.onTimerStart}
@@ -59,7 +59,7 @@ class TimerWidget extends React.Component<IDefinition, ITimerState> {
             (ms) => <TimerDisplay ms={ms} />
           }
         </IntervalRenderer>
-        <button type="button" onClick={this.onToggleClick}>Toggle</button>
+        <button className="toggle primary-button" type="button" onClick={this.onToggleClick}>Toggle</button>
       </div>
     );
   }
