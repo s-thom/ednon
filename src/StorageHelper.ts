@@ -4,7 +4,7 @@ import idb, { DB } from 'idb';
 import {
   pReduce,
 } from './util';
-import { IState } from './types';
+import { IState, IDefinition } from './types';
 
 interface IUpgrade {
   from: number;
@@ -19,7 +19,16 @@ const DB_NAME = 'ednon';
 const DB_VERSION = 1;
 
 export default class StorageHelper {
+  private static instance: StorageHelper;
   private readonly dbPromise: Promise<DB>;
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new StorageHelper();
+    }
+
+    return this.instance;
+  }
 
   constructor() {
     this.dbPromise = idb.open(DB_NAME, DB_VERSION, (db) => {
@@ -44,16 +53,12 @@ export default class StorageHelper {
     );
   }
 
-  newWidget(widgetId: string, type: string, state: IState) {
+  newWidget(def: IDefinition) {
     return this.dbPromise
       .then(db => db.transaction(['widgets'], 'readwrite'))
       .then(async (transaction) => {
         const store = transaction.objectStore('widgets');
-        return store.add({
-          id: widgetId,
-          type,
-          data: state,
-        });
+        return store.add(def);
       });
   }
 
@@ -76,6 +81,16 @@ export default class StorageHelper {
         const widgets = await store.getAll();
         console.log(widgets);
         return widgets;
+      });
+  }
+
+  removeWidget(widgetId: string) {
+    return this.dbPromise
+      .then(db => db.transaction(['widgets'], 'readwrite'))
+      .then(async (transaction) => {
+        const store = transaction.objectStore('widgets');
+        await store.delete(widgetId);
+        return;
       });
   }
 

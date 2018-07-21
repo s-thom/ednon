@@ -7,7 +7,7 @@ export interface IDefinition<State extends IState = IState> {
 }
 
 export interface IProps<State extends IState> extends IDefinition<State> {
-  storage: StorageHelper;
+  // TODO:
 }
 
 export interface IState {

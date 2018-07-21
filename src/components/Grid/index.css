@@ -1,4 +1,7 @@
 .Grid {
+  flex-grow: 1;
+  height: fit-content;
+  margin: 0.3em;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 0.3em;
@@ -27,5 +30,59 @@
   .Grid {
     grid-template-columns: repeat(5, 1fr);
   }
+}
+
+@media (min-width: 1950px) {
+  .Grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 2400px) {
+  .Grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media (min-width: 3000px) {
+  .Grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+@media (min-width: 4000px) {
+  .Grid {
+    grid-template-columns: repeat(9, 1fr);
+  }
+}
+
+.Grid .wrapper {
+  position: relative;
+}
+
+.Grid .remove-button {
+  background-color: #EE3344;
+  border: 0;
+  border-radius: 50%;
+  position: absolute;
+  width: 1.2em;
+  height: 1.2em;
+  padding: 0;
+  top: 0em;
+  right: 0em;
+  font-size: 0em;
+  transition: font-size 0.3s ease-out;
+  z-index: 10;
+}
+
+.Grid .remove-button .icon {
+  fill: #FFFFFF;
+  height: 1em;
+  width: 1em;
+  margin: 0 auto;
+}
+
+.Grid.removing .remove-button {
+  font-size: 1em;
 }
 

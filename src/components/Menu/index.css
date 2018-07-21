@@ -1,0 +1,76 @@
+.Menu {
+  background-color: #484868;
+  color: #FFFFFF;
+  display: flex;
+}
+
+.Menu .menu-section {
+  display: flex;
+  padding: 0 0.2em;
+}
+
+.Menu .menu-section:first-child {
+  padding-left: 0;
+}
+
+.Menu .menu-section:last-child {
+  padding-right: 0;
+}
+
+.Menu .menu-section:not(:first-child) {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.Menu .menu-item {
+  background-color: rgba(255, 255, 255, 0);
+  border: 0;
+  outline: none;
+  color: inherit;
+  transition: background-color 0.3s ease-out;
+  cursor: pointer;
+  height: 4em;
+  width: 4em;
+}
+
+.Menu .menu-item .icon {
+  fill: #FFFFFF;
+  font-size: 2em;
+}
+
+.Menu .menu-item .item-title {
+
+}
+
+.Menu .menu-item:hover,
+.Menu .menu-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.Menu .menu-item:hover .item-title,
+.Menu .menu-item.active .item-title {
+  text-decoration: underline;
+}
+
+@media (min-width: 720px) {
+  .Menu,
+  .Menu .menu-section {
+    flex-direction: column;
+  }
+
+  .Menu .menu-section {
+    padding: 0.2em 0;
+  }
+
+  .Menu .menu-section:first-child {
+    padding-top: 0;
+  }
+
+  .Menu .menu-section:last-child {
+    padding-bottom: 0;
+  }
+
+  .Menu .menu-section:not(:first-child) {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}

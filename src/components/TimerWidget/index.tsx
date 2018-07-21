@@ -1,10 +1,12 @@
 import * as React from 'react';
+import ReactSVG from 'react-svg';
 import autobind from 'autobind-decorator';
 import IntervalRenderer from '../IntervalRenderer';
 import TimerDisplay from '../TimerDisplay';
 import './index.css';
 import { IProps } from '../../types';
 import Widget from '../Widget';
+import iconPath from '../../assets/sharp-timer-24px.svg';
 
 interface ITimerState {
   title: string;
@@ -14,6 +16,23 @@ interface ITimerState {
 }
 
 class TimerWidget extends Widget<ITimerState> {
+  static title = 'Timer';
+
+  static renderIcon() {
+    return (
+      <ReactSVG path={iconPath} className="icon" />
+    );
+  }
+
+  static getDefaultData() {
+    return {
+      title: 'New Timer',
+      notes: 'Note...',
+      elapsed: 0,
+      running: false,
+    };
+  }
+
   constructor(props: IProps<ITimerState>) {
     super(props);
 

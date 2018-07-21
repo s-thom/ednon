@@ -5,19 +5,26 @@ import logo from '../../assets/logo.svg';
 import Grid from '../Grid';
 import StorageHelper from '../../StorageHelper';
 import {
+  IDefinition,
   IDisplayMessage,
   MessageSeverity,
-  IDefinition,
 } from '../../types';
-import { StorageProvider } from '../StorageProvider';
+import WidgetMap from '../../WidgetMap';
+import Widget from '../Widget';
+import Menu from '../Menu';
+import autobind from '../../../node_modules/autobind-decorator';
+import {
+  generateId,
+} from '../../util';
 
-interface IState {
+interface IAppState {
   messages: IDisplayMessage[];
   widgets?: IDefinition[];
+  editing: boolean;
 }
 
 // tslint:disable-next-line:no-any
-class App extends React.Component<any, IState> {
+class App extends React.Component<any, IAppState> {
   private storage: StorageHelper;
 
   constructor(props) {
@@ -26,9 +33,10 @@ class App extends React.Component<any, IState> {
     this.state = {
       messages: [],
       widgets: undefined,
+      editing: false,
     };
 
-    this.storage = new StorageHelper();
+    this.storage = StorageHelper.getInstance();
     this.storage.ready()
       .then((isReady) => {
         if (!isReady) {
@@ -43,22 +51,10 @@ class App extends React.Component<any, IState> {
   getListAndSetState() {
     this.storage.getAllWidgets()
       .then((list) => {
-        if (list.length === 0) {
-          this.storage.newWidget('foo', 'timer', {
-            title: 'foo',
-            notes: 'some notes',
-            running: false,
-          })
-            .then(() => {
-              console.log('uh oh');
-              this.getListAndSetState();
-            });
-        } else {
-          this.setState({
-            ...this.state,
-            widgets: list,
-          });
-        }
+        this.setState({
+          ...this.state,
+          widgets: list,
+        });
       });
   }
 
@@ -78,13 +74,66 @@ class App extends React.Component<any, IState> {
     });
   }
 
+  @autobind
+  onNewItemToAdd(type: string) {
+    if (!this.state.widgets) {
+      this.showMessage(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+      return;
+    }
+
+    const list = [...this.state.widgets];
+    const newWidget: IDefinition = {
+      id: generateId(),
+      type,
+      data: (WidgetMap.get(type) || Widget).getDefaultData(),
+    };
+    list.push(newWidget);
+    this.storage.newWidget(newWidget);
+
+    this.setState({
+      ...this.state,
+      widgets: list,
+    });
+  }
+
+  @autobind
+  onItemToRemove(id: string) {
+    if (!this.state.widgets) {
+      this.showMessage(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+      return;
+    }
+
+    const list = this.state.widgets.filter(d => d.id !== id);
+    this.storage.removeWidget(id);
+
+    this.setState({
+      ...this.state,
+      widgets: list,
+    });
+  }
+
+  @autobind
+  onEditModeChange(mode: boolean) {
+    this.setState({
+      ...this.state,
+      editing: mode,
+    });
+  }
+
   render() {
     return (
-      <StorageProvider value={this.storage}>
-        <div className="App">
-          <Grid widgets={this.state.widgets} />
-        </div>
-      </StorageProvider>
+      <div className="App">
+        <Menu
+          widgetTypes={WidgetMap}
+          onNewItemClick={this.onNewItemToAdd}
+          onEditModeChange={this.onEditModeChange}
+        />
+        <Grid
+          widgets={this.state.widgets}
+          onWidgetRemove={this.onItemToRemove}
+          showRemoveIcons={this.state.editing}
+        />
+      </div>
     );
   }
 }
