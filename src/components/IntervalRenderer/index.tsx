@@ -65,7 +65,7 @@ class IntervalRenderer extends React.Component<IProps, IState> {
 
     this.state = {
       start: 0,
-      elapsed: 0,
+      elapsed: props.value || 0,
       prev: 0,
       handler: () => {
         this.setState({
