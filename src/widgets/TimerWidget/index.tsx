@@ -5,6 +5,9 @@ import './index.css';
 import { IProps } from '../../types';
 import Widget from '../Widget';
 import iconPath from '../../assets/sharp-timer-24px.svg';
+import clearIcon from '../../assets/sharp-close-24px.svg';
+import playIcon from '../../assets/sharp-play_arrow-24px.svg';
+import pauseIcon from '../../assets/sharp-pause-24px.svg';
 import Stopwatch from './Stopwatch';
 import { createMinPeriodTimeout } from '../../util';
 
@@ -59,6 +62,15 @@ class TimerWidget extends Widget<ITimerState> {
   }
 
   @autobind
+  onClearClick() {
+    this.setState({
+      ...this.state,
+      running: false,
+      elapsed: 0,
+    });
+  }
+
+  @autobind
   onTimerStart(ms) {
     this.setState({
       ...this.state,
@@ -101,18 +113,21 @@ class TimerWidget extends Widget<ITimerState> {
           value={this.state.title}
           onChange={this.onTitleChange}
         />
-        <button
-          className="toggle"
-          onClick={this.onToggleClick}
-        >
-          <Stopwatch
-            running={this.state.running}
-            initial={this.state.elapsed}
-            onTimeTick={this.tickHandler}
-            onStart={this.tickHandler}
-            onStop={this.tickHandler}
-          />
-        </button>
+        <div className="button-row">
+          <button
+            className="toggle"
+            onClick={this.onToggleClick}
+          >
+            <ReactSVG path={this.state.running ? pauseIcon : playIcon} className="icon" />
+          </button>
+        </div>
+        <Stopwatch
+          running={this.state.running}
+          initial={this.state.elapsed}
+          onTimeTick={this.tickHandler}
+          onStart={this.tickHandler}
+          onStop={this.tickHandler}
+        />
       </div>
     );
   }
