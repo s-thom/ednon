@@ -15,6 +15,7 @@ import {
 import {
   generateId,
 } from '../../util';
+import MessageList from '../MessageList';
 
 interface IAppState {
   messages: IDisplayMessage[];
@@ -119,6 +120,16 @@ class App extends React.Component<any, IAppState> {
     });
   }
 
+  @autobind
+  onMessageRemove(message: IDisplayMessage) {
+    const list = this.state.messages.filter(m => m !== message);
+
+    this.setState({
+      ...this.state,
+      messages: list,
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -132,6 +143,10 @@ class App extends React.Component<any, IAppState> {
           widgetTypes={WidgetMap}
           onWidgetRemove={this.onItemToRemove}
           showRemoveIcons={this.state.editing}
+        />
+        <MessageList
+          messages={this.state.messages}
+          onMessageRemoveClick={this.onMessageRemove}
         />
       </div>
     );

@@ -4,15 +4,15 @@ import './index.css';
 import autobind from 'autobind-decorator';
 import { IDisplayMessage } from '../../types';
 
-interface IMessageListProps {
-  messages: IDisplayMessage[];
+interface IMessageProps {
+  message: IDisplayMessage;
   onMessageRemoveClick: (message: IDisplayMessage) => void;
 }
 
-class MessageList extends React.Component<IMessageListProps> {
+class Message extends React.Component<IMessageProps> {
   render() {
     return null;
   }
 }
 
-export default MessageList;
+export default Message;
