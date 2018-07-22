@@ -1,18 +1,12 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import TimerWidget from '../TimerWidget';
-import Widget from '../Widget';
-import autobind from '../../../node_modules/autobind-decorator';
-import StorageHelper from '../../StorageHelper';
-import { IDefinition, IState } from '../../types';
+import Widget from '../../widgets/Widget';
+import { IDefinition } from '../../types';
 import removeIcon from '../../assets/sharp-close-24px.svg';
 
-const widgetTypes = {
-  timer: TimerWidget,
-};
-
 interface IGridProps {
+  widgetTypes: Map<string, typeof Widget>;
   widgets?: IDefinition[];
   showRemoveIcons: boolean;
   onWidgetRemove: (id: string) => void;
@@ -21,7 +15,7 @@ interface IGridProps {
 class Grid extends React.Component<IGridProps> {
 
   createWidget(def: IDefinition) {
-    const Comp: typeof Widget = widgetTypes[def.type];
+    const Comp: typeof Widget = this.props.widgetTypes.get(def.type) || Widget;
     return (
       <div
         className="wrapper"

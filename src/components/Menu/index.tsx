@@ -1,9 +1,9 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import Widget from '../Widget';
+import Widget from '../../widgets/Widget';
 import editIcon from '../../assets/sharp-edit-24px.svg';
-import autobind from '../../../node_modules/autobind-decorator';
+import autobind from 'autobind-decorator';
 
 interface IMenuProps {
   widgetTypes: Map<string, typeof Widget>;

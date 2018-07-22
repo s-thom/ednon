@@ -68,7 +68,12 @@ export default class StorageHelper {
       .then(async (transaction) => {
         const store = transaction.objectStore('widgets');
         const widget = await store.get(widgetId);
-        widget.data = state;
+        try {
+          widget.data = state;
+        } catch (err) {
+          console.error(`Tried to update state of widget ${widgetId}, but it does not exist`);
+          return;
+        }
         return store.put(widget);
       });
   }
