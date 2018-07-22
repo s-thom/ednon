@@ -1,22 +1,24 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import autobind from 'autobind-decorator';
-import IntervalRenderer from './IntervalRenderer';
-import TimerDisplay from './TimerDisplay';
 import './index.css';
 import { IProps } from '../../types';
 import Widget from '../Widget';
 import iconPath from '../../assets/sharp-timer-24px.svg';
+import Stopwatch from './Stopwatch';
+import { createMinPeriodTimeout } from '../../util';
+
+const STOPWATCH_DB_UPDATE_PERIOD = 1000;
 
 interface ITimerState {
   title: string;
-  notes: string;
   elapsed: number;
   running: boolean;
 }
 
 class TimerWidget extends Widget<ITimerState> {
   static title = 'Timer';
+  private tickHandler: (ms: number) => void;
 
   static renderIcon() {
     return (
@@ -27,7 +29,6 @@ class TimerWidget extends Widget<ITimerState> {
   static getDefaultData() {
     return {
       title: 'New Timer',
-      notes: 'Note...',
       elapsed: 0,
       running: false,
     };
@@ -37,6 +38,16 @@ class TimerWidget extends Widget<ITimerState> {
     super(props);
 
     this.state = props.data;
+
+    this.tickHandler = createMinPeriodTimeout(
+      (ms: number) => {
+        this.setState({
+          ...this.state,
+          elapsed: ms,
+        });
+      },
+      STOPWATCH_DB_UPDATE_PERIOD,
+    );
   }
 
   @autobind
@@ -90,24 +101,18 @@ class TimerWidget extends Widget<ITimerState> {
           value={this.state.title}
           onChange={this.onTitleChange}
         />
-        <textarea
-          className="notes"
-          name={`${this.props.id}-notes`}
-          id={`${this.props.id}-notes`}
-          value={this.state.notes}
-          onChange={this.onNotesChange}
-        />
-        <IntervalRenderer
-          running={this.state.running}
-          onStart={this.onTimerStart}
-          onStop={this.onTimerStop}
-          value={this.state.elapsed}
+        <button
+          className="toggle"
+          onClick={this.onToggleClick}
         >
-          {
-            (ms) => <TimerDisplay ms={ms} />
-          }
-        </IntervalRenderer>
-        <button className="toggle primary-button" type="button" onClick={this.onToggleClick}>Toggle</button>
+          <Stopwatch
+            running={this.state.running}
+            initial={this.state.elapsed}
+            onTimeTick={this.tickHandler}
+            onStart={this.tickHandler}
+            onStop={this.tickHandler}
+          />
+        </button>
       </div>
     );
   }
