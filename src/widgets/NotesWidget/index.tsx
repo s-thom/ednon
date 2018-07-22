@@ -1,22 +1,18 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import autobind from 'autobind-decorator';
-import IntervalRenderer from '../IntervalRenderer';
-import TimerDisplay from '../TimerDisplay';
 import './index.css';
 import { IProps } from '../../types';
 import Widget from '../Widget';
-import iconPath from '../../assets/sharp-timer-24px.svg';
+import iconPath from '../../assets/sharp-speaker_notes-24px.svg';
 
-interface ITimerState {
+interface INoteState {
   title: string;
   notes: string;
-  elapsed: number;
-  running: boolean;
 }
 
-class TimerWidget extends Widget<ITimerState> {
-  static title = 'Timer';
+class NotesWidget extends Widget<INoteState> {
+  static title = 'Notes';
 
   static renderIcon() {
     return (
@@ -26,41 +22,15 @@ class TimerWidget extends Widget<ITimerState> {
 
   static getDefaultData() {
     return {
-      title: 'New Timer',
+      title: 'New Note',
       notes: 'Note...',
-      elapsed: 0,
-      running: false,
     };
   }
 
-  constructor(props: IProps<ITimerState>) {
+  constructor(props: IProps<INoteState>) {
     super(props);
 
     this.state = props.data;
-  }
-
-  @autobind
-  onToggleClick() {
-    this.setState({
-      ...this.state,
-      running: !this.state.running,
-    });
-  }
-
-  @autobind
-  onTimerStart(ms) {
-    this.setState({
-      ...this.state,
-      elapsed: ms,
-    });
-  }
-
-  @autobind
-  onTimerStop(ms) {
-    this.setState({
-      ...this.state,
-      elapsed: ms,
-    });
   }
 
   @autobind
@@ -81,7 +51,7 @@ class TimerWidget extends Widget<ITimerState> {
 
   render() {
     return (
-      <div className="TimerWidget">
+      <div className="NotesWidget">
         <input
           className="title"
           type="text"
@@ -97,20 +67,9 @@ class TimerWidget extends Widget<ITimerState> {
           value={this.state.notes}
           onChange={this.onNotesChange}
         />
-        <IntervalRenderer
-          running={this.state.running}
-          onStart={this.onTimerStart}
-          onStop={this.onTimerStop}
-          value={this.state.elapsed}
-        >
-          {
-            (ms) => <TimerDisplay ms={ms} />
-          }
-        </IntervalRenderer>
-        <button className="toggle primary-button" type="button" onClick={this.onToggleClick}>Toggle</button>
       </div>
     );
   }
 }
 
-export default TimerWidget;
+export default NotesWidget;
