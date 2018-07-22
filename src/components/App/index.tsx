@@ -68,12 +68,6 @@ class App extends React.Component<any, IAppState> {
   }
 
   @autobind
-  onBeloreInstallPrompt(event: Event) {
-    event.preventDefault();
-    this.installEvent = event;
-  }
-
-  @autobind
   onNewItemToAdd(type: string) {
     if (!this.state.widgets) {
       this.messageHelper.send(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
