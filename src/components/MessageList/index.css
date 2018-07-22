@@ -1,0 +1,88 @@
+.MessageList {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.MessageList .Message {
+  color: #464646;
+  fill: #464646;
+  background-color: #E2E2E2;
+  padding: 0.5em;
+  margin: 0.3em;
+  border-radius: 0.3em;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  width: 300px;
+}
+.MessageList .Message.info {
+  color: #009B95;
+  fill: #009B95;
+  background-color: #B8F5E7;
+}
+.MessageList .Message.info .button-list .action {
+  color: #009B95;
+  border-color: #009B95;
+  background-color: #B8F5E7;
+}
+
+.MessageList .Message.warn {
+  color: #9F6000;
+  fill: #9F6000;
+  background-color: #FEEFB3;
+}
+.MessageList .Message.warn .button-list .action {
+  color: #9F6000;
+  border-color: #9F6000;
+  background-color: #FEEFB3;
+}
+
+.MessageList .Message.error {
+  color: #D8000C;
+  fill: #D8000C;
+  background-color: #FFBABA;
+}
+.MessageList .Message.error .button-list .action {
+  color: #D8000C;
+  border-color: #D8000C;
+  background-color: #FFBABA;
+}
+
+.MessageList .Message .header {
+  display: flex;
+}
+
+.MessageList .Message .header .title {
+  flex-grow: 1;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.MessageList .Message .header .close {
+  font-size: 1.5em;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.MessageList .Message .message {
+  margin: 0.5em 0;
+}
+
+.MessageList .Message .button-list {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.MessageList .Message .button-list .action {
+  font-weight: bold;
+  border-style: solid;
+  border-width: 0.2em;
+  border-radius: 1em;
+  padding: 0.2em 0.5em;
+}
