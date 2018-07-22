@@ -9,6 +9,11 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
+import MessageHelper from './MessageHelper';
+import { MessageSeverity } from './types';
+
+const messageHelper = MessageHelper.getInstance();
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -71,11 +76,16 @@ function registerValidSW(swUrl: string) {
                 // It's the perfect time to display a 'New content is
                 // available; please refresh.' message in your web app.
                 console.log('New content is available; please refresh.');
+                messageHelper.send(MessageSeverity.NONE, 'New Version Ready', 'Refresh the page to get the latest version', [{
+                  text: 'Refresh',
+                  onClick: () => window.location.reload(),
+                }]);
               } else {
                 // At this point, everything has been precached.
                 // It's the perfect time to display a
                 // 'Content is cached for offline use.' message.
                 console.log('Content is cached for offline use.');
+                messageHelper.send(MessageSeverity.NONE, 'Offline Available', 'EdNon can now be used offline');
               }
             }
           };
@@ -84,6 +94,7 @@ function registerValidSW(swUrl: string) {
     })
     .catch(error => {
       console.error('Error during service worker registration:', error);
+       messageHelper.send(MessageSeverity.WARN, 'Offline Unavailable', 'Unable to set up offline support');
     });
 }
 
