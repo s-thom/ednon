@@ -72,7 +72,7 @@ export default class StorageHelper {
           widget.data = state;
         } catch (err) {
           console.error(`Tried to update state of widget ${widgetId}, but it does not exist`);
-          return;
+          return null;
         }
         return store.put(widget);
       });

@@ -23,7 +23,14 @@ export enum MessageSeverity {
 }
 
 export interface IDisplayMessage {
+  id: string;
   title: string;
   message: string;
   severity: MessageSeverity;
+  actions?: IDisplayMessageAction[];
+}
+
+export interface IDisplayMessageAction {
+  text: string;
+  onClick: () => void;
 }

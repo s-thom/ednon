@@ -10,6 +10,7 @@ The final goal of the project is (near-)complete modularity. At this point it is
 * [TypeScript](https://www.typescriptlang.org/)
 * [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) (and Jake Archibald's [idb](https://www.npmjs.com/package/idb) wrapper)
 * [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) (for offline support)
+* [Adding to Home Screen](https://developers.google.com/web/fundamentals/app-install-banners/)
 
 ## Contributing
 
