@@ -2,6 +2,7 @@ import * as React from 'react';
 import './index.css';
 
 import Grid from '../Grid';
+import MessageHelper from '../../MessageHelper';
 import StorageHelper from '../../StorageHelper';
 import WidgetMap from '../../WidgetMap';
 import Widget from '../../widgets/Widget';
@@ -15,6 +16,7 @@ import {
 import {
   generateId,
 } from '../../util';
+import MessageList from '../MessageList';
 
 interface IAppState {
   messages: IDisplayMessage[];
@@ -25,6 +27,7 @@ interface IAppState {
 // tslint:disable-next-line:no-any
 class App extends React.Component<any, IAppState> {
   private storage: StorageHelper;
+  private messageHelper: MessageHelper;
 
   constructor(props) {
     super(props);
@@ -35,16 +38,23 @@ class App extends React.Component<any, IAppState> {
       editing: false,
     };
 
+    this.messageHelper = MessageHelper.getInstance();
+    this.messageHelper.addListener(this.onMessageAdd);
+
     this.storage = StorageHelper.getInstance();
     this.storage.ready()
       .then((isReady) => {
         if (!isReady) {
-          this.showMessage(MessageSeverity.ERROR, 'Unable to open database', 'Further information is available in the developer tools');
+          this.messageHelper.send(MessageSeverity.ERROR, 'Unable to open database', 'Further information is available in the developer tools');
           return;
         }
 
         this.getListAndSetState();
       });
+  }
+
+  componentWillUnmount() {
+    this.messageHelper.removeListener(this.onMessageAdd);
   }
 
   getListAndSetState() {
@@ -57,26 +67,10 @@ class App extends React.Component<any, IAppState> {
       });
   }
 
-  showMessage(severity: MessageSeverity, title: string, message: string) {
-    // Do shallow copy of messages array
-    const messageArray = [...this.state.messages];
-
-    messageArray.push({
-      severity,
-      title,
-      message,
-    });
-
-    this.setState({
-      ...this.state,
-      messages: messageArray,
-    });
-  }
-
   @autobind
   onNewItemToAdd(type: string) {
     if (!this.state.widgets) {
-      this.showMessage(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+      this.messageHelper.send(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
       return;
     }
 
@@ -98,7 +92,7 @@ class App extends React.Component<any, IAppState> {
   @autobind
   onItemToRemove(id: string) {
     if (!this.state.widgets) {
-      this.showMessage(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+      this.messageHelper.send(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
       return;
     }
 
@@ -119,6 +113,27 @@ class App extends React.Component<any, IAppState> {
     });
   }
 
+  @autobind
+  onMessageAdd(message: IDisplayMessage) {
+    const list = [...this.state.messages];
+    list.push(message);
+
+    this.setState({
+      ...this.state,
+      messages: list,
+    });
+  }
+
+  @autobind
+  onMessageRemove(id: string) {
+    const list = this.state.messages.filter(m => m.id !== id);
+
+    this.setState({
+      ...this.state,
+      messages: list,
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -132,6 +147,10 @@ class App extends React.Component<any, IAppState> {
           widgetTypes={WidgetMap}
           onWidgetRemove={this.onItemToRemove}
           showRemoveIcons={this.state.editing}
+        />
+        <MessageList
+          messages={this.state.messages}
+          onMessageRemoveClick={this.onMessageRemove}
         />
       </div>
     );
