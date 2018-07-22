@@ -51,7 +51,7 @@ class NotesWidget extends Widget<INoteState> {
 
   render() {
     return (
-      <div className="TimerWidget">
+      <div className="NotesWidget">
         <input
           className="title"
           type="text"
