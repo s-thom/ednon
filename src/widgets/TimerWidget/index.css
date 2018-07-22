@@ -7,8 +7,8 @@
   grid-gap: 0.3em;
   grid-template-areas:
     "title title"
-    "notes notes"
-    "timer button";
+    "buttons buttons"
+    "timer timer";
 }
 
 .TimerWidget .title {
@@ -29,20 +29,25 @@
   border-bottom: 0.1em solid #484868;
 }
 
-.TimerWidget .notes {
-  grid-area: notes;
-  resize: vertical;
-  min-height: 5em;
-  outline: none;
+.TimerWidget .button-row {
+  grid-area: buttons;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.TimerWidget .toggle,
+.TimerWidget .clear {
+  background-color: transparent;
   border: none;
-  margin: 0.2em;
+  outline: none;
+  font-size: 1.5em;
+  fill: #484868;
 }
 
 .TimerWidget .TimerDisplay {
   grid-area: timer;
   font-family: monospace;
+  font-size: 2.5em;
+  text-align: center;
 }
 
-.TimerWidget .toggle {
-  grid-area: button;
-}

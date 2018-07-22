@@ -136,6 +136,73 @@ export function createInactivityTimeout(fn: (...args: any[]) => any, timeout: nu
 }
 
 /**
+ * Runs the specified function with a minimum period between calls of the timeout
+ *
+ * @export
+ * @param fn Function to run when there's no timeout
+ * @param timeout Length of timeout in ms
+ */
+// tslint:disable-next-line:no-any
+export function createMinPeriodTimeout(fn: (...args: any[]) => any, timeout: number) {
+  // tslint:disable-next-line:no-any
+  let handler = undefined as any;
+
+  return (...args) => {
+    // Ignore function call if there is a timeout currently running
+    if (handler) {
+      return;
+    }
+
+    // Set the timeout
+    handler = setTimeout(
+      () => {
+        clearTimeout(handler);
+        // tslint:disable-next-line:no-any
+        handler = undefined as any;
+      },
+      timeout,
+    );
+
+    // Run function immediately
+    fn(...args);
+  };
+}
+
+/**
+ * Runs the specified function with a minimum period between calls of the timeout
+ * Unlike the other version, this runs the function after the timeout
+ *
+ * @export
+ * @param fn Function to run when there's no timeout
+ * @param timeout Length of timeout in ms
+ */
+// tslint:disable-next-line:no-any
+export function createMinPeriodPostTimeout(fn: (...args: any[]) => any, timeout: number) {
+  // tslint:disable-next-line:no-any
+  let handler = undefined as any;
+
+  return (...args) => {
+    // Ignore function call if there is a timeout currently running
+    if (handler) {
+      return;
+    }
+
+    // Set the timeout
+    handler = setTimeout(
+      () => {
+        clearTimeout(handler);
+        // tslint:disable-next-line:no-any
+        handler = undefined as any;
+
+        // Run function now that timeout has finished
+        fn(...args);
+      },
+      timeout,
+    );
+  };
+}
+
+/**
  * Escapes a string to be used in a RegExp constructor
  *
  * @param str String to escape
