@@ -6,7 +6,6 @@
   min-height: 100vh;
   font-size: 16px;
 
-  --primaryColor: #484868;
 }
 
 @media (min-width: 720px) {

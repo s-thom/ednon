@@ -38,3 +38,23 @@ npm run build
 ```
 
 The output is in `build/`
+
+## Phases
+
+This project is to go through 3 phases of development.
+
+### Phase 1
+
+Make a dashboard with a few useful things.
+
+This phase is complete.
+
+### Phase 2
+
+Make a component based system driven by IndexedDB, where the structure of different items can be modified by DB.
+
+### Phase 3
+
+Make a system for having information flow between different Parts.
+
+I don't know how I'll do this yet.
