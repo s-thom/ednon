@@ -33,3 +33,24 @@ button {
   height: 1em;
   width: 1em;
 }
+
+.huge {
+  font-size: 1.5em;
+}
+
+.large {
+  font-size: 1.2em;
+}
+
+.normal {
+  font-size: 1em;
+}
+
+.small {
+  font-size: 0.85em;
+}
+
+.tiny {
+  font-size: 0.7em;
+}
+
