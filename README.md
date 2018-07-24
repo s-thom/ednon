@@ -20,7 +20,7 @@ Here's a list of good starter issues.
 
 * [ ] A better name
 * [ ] A better icon
-* [ ] More types of things
+* [ ] More types of things (note: may be best to hold off until the groundwork for phase 2 is in place)
 
 ### Making it go
 
@@ -52,6 +52,8 @@ This phase is complete.
 ### Phase 2
 
 Make a component based system driven by IndexedDB, where the structure of different items can be modified by DB.
+
+There will be a set of base Parts (e.g. buttons, lists, inputs of various types), which will then be used to build up mre complex Parts. Each Part manages its own state (but does not affect children or parents).
 
 ### Phase 3
 
