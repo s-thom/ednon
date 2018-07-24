@@ -1,0 +1,51 @@
+.Button {
+  text-transform: uppercase;
+  font-size: 1em;
+  text-align: center;
+  padding: 0.8em 1em;
+  min-width: 6em;
+  border-width: 2px;
+  border-style: solid;
+  transition: all 0.3s ease-in-out;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+.Button:disabled {
+  cursor: default;
+}
+
+.Button.primary,
+.Button.secondary {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .06), 0 2px 10px 0 rgba(0, 0, 0, .04);
+}
+.Button.primary:disabled,
+.Button.secondary:disabled {
+  color: var(--disabledColor);
+  border-color: var(--disabledColor);
+}
+.Button.primary:not(:disabled):hover,
+.Button.secondary:not(:disabled):hover {
+  box-shadow: 0 3px 9px 0 rgba(0, 0, 0, .14), 0 2px 13px 0 rgba(0, 0, 0, .15);
+}
+
+.Button.primary {
+  background-color: var(--primaryColor);
+  color: var(--textColorAlt);
+  border-color: var(--primaryColor);
+}
+.Button.primary:not(:disabled):hover {
+  background-color: var(--primaryColorHover);
+  border-color: var(--primaryColorHover);
+}
+
+.Button.secondary {
+  background-color: transparent;
+  color: var(--primaryColor);
+  border-color: var(--primaryColor);
+}
+.Button.secondary:not(:disabled):hover {
+  background-color: var(--primaryColorHover);
+  color: var(--textColorAlt);
+  border-color: var(--primaryColorHover);
+}
