@@ -77,6 +77,10 @@ export interface IPart extends IPartInstanceProps {
    * Internal state of this instance of the part
    */
   state: IPartState;
+  /**
+   * Whether this part should show on the menu to be cloned
+   */
+  showOnMenu?: boolean;
 }
 
 type PartSize = 'huge' | 'large' | 'normal' | 'small' | 'tiny';

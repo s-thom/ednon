@@ -4,7 +4,7 @@ import idb, { DB } from 'idb';
 import {
   pReduce,
 } from './util';
-import { IState, IDefinition } from './types';
+import { IState, IDefinition, IPartState, IPart } from './types';
 
 interface IUpgrade {
   from: number;
@@ -36,6 +36,11 @@ export default class StorageHelper {
         // NOTE: Lack of breaks inbetween cases is intentional
         case 0:
           db.createObjectStore('widgets', {
+            keyPath: 'id',
+          });
+          break;
+        case 1:
+          db.createObjectStore('parts', {
             keyPath: 'id',
           });
           break;
@@ -96,6 +101,21 @@ export default class StorageHelper {
         const store = transaction.objectStore('widgets');
         await store.delete(widgetId);
         return;
+      });
+  }
+
+  savePartInstanceState(partId: string, state: IPartState) {
+    console.log('would save state', partId, state);
+  }
+
+  getPartFromId(partId: string): Promise<IPart> {
+    return this.dbPromise
+      .then(db => db.transaction(['parts'], 'readonly'))
+      .then(async (transaction) => {
+        const store = transaction.objectStore('parts');
+        const part = await store.get(partId);
+        console.log(part);
+        return part;
       });
   }
 

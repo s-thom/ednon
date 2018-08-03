@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IPartInstanceProps, IPartState } from '../../types';
 import StorageHelper from '../../StorageHelper';
 
-export default class Part<Props extends IPartInstanceProps = IPartInstanceProps, State extends IPartState = IPartState> extends React.Component<Props, State> {
+export default abstract class Part<Props extends IPartInstanceProps = IPartInstanceProps, State extends IPartState = IPartState> extends React.Component<Props, State> {
   private storage: StorageHelper;
 
   constructor(props: Props) {
