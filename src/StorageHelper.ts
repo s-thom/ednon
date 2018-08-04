@@ -5,6 +5,7 @@ import {
   pReduce,
 } from './util';
 import { IState, IDefinition } from './types';
+import { IPartDefinition } from './part/Part';
 
 interface IUpgrade {
   from: number;
@@ -36,6 +37,11 @@ export default class StorageHelper {
         // NOTE: Lack of breaks inbetween cases is intentional
         case 0:
           db.createObjectStore('widgets', {
+            keyPath: 'id',
+          });
+          break;
+        case 1:
+          db.createObjectStore('parts', {
             keyPath: 'id',
           });
           break;
@@ -96,6 +102,18 @@ export default class StorageHelper {
         const store = transaction.objectStore('widgets');
         await store.delete(widgetId);
         return;
+      });
+  }
+
+  getPartDefinition(id: string) {
+    return this.dbPromise
+      .then(db => db.transaction(['widgets'], 'readonly'))
+      .then(async (transaction) => {
+        const store = transaction.objectStore('widgets');
+        // tslint:disable-next-line:no-any
+        const part: IPartDefinition<any> = await store.get(id);
+        console.log(part);
+        return part;
       });
   }
 
