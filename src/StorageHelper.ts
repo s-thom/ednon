@@ -39,12 +39,14 @@ export default class StorageHelper {
           db.createObjectStore('widgets', {
             keyPath: 'id',
           });
-          break;
+        // tslint:disable-next-line:no-switch-case-fall-through switch-final-break
         case 1:
           db.createObjectStore('parts', {
             keyPath: 'id',
           });
-          break;
+          db.createObjectStore('visible', {
+            keyPath: 'id',
+          });
       }
     });
   }

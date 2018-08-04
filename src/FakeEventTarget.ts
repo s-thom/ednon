@@ -3,7 +3,7 @@ interface IEventTypeDefinitions {
   [name: string]: any;
 }
 
-type HandleFunction<EventTypes extends IEventTypeDefinitions, EventName extends keyof EventTypes> = (obj: EventTypes[EventName]) => void;
+type HandleFunction<EventTypes extends IEventTypeDefinitions, EventName extends keyof EventTypes> = (obj?: EventTypes[EventName]) => void;
 
 interface IHandle<EventTypes extends IEventTypeDefinitions, EventName extends keyof EventTypes> {
   event: EventName;
