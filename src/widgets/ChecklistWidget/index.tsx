@@ -8,7 +8,7 @@ import iconPath from '../../assets/sharp-check_circle-24px.svg';
 import addIcon from '../../assets/sharp-add-24px.svg';
 import removeIcon from '../../assets/sharp-close-24px.svg';
 import { generateId } from '../../util';
-import Input from 'src/components/Input';
+import Input from '../../components/Input';
 
 interface IChecklistItem {
   id: string;
