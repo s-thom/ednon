@@ -1,7 +1,4 @@
 .ChecklistWidget {
-  background-color: #FFFFFF;
-  border-radius: 0.5em;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 0.3em;
@@ -44,9 +41,13 @@
   outline: none;
   font-size: 1.3em;
   fill: var(--primaryColor);
+  padding: 0.1em;
+  width: 1.2em;
+  height: 1.2em;
+  align-self: center;
 }
 
-.Grid.removing .ChecklistWidget .list .remove {
+.ChecklistWidget .list .Checklist-item:hover .remove {
   display: initial;
 }
 

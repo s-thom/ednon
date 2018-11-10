@@ -8,6 +8,7 @@ import iconPath from '../../assets/sharp-speaker_notes-24px.svg';
 import Input from '../../components/Input';
 import Textarea from '../../components/Textarea';
 import useStoredState from '../../useStoredState';
+import Card from '../../components/Card';
 
 interface INoteState {
   title: string;
@@ -26,7 +27,7 @@ function NotesWidget(props: IProps<INoteState>) {
   }
 
   return (
-    <div className="NotesWidget">
+    <Card className="NotesWidget">
       <Input
         className="title"
         value={title}
@@ -42,7 +43,7 @@ function NotesWidget(props: IProps<INoteState>) {
         onChange={onNotesValueChange}
         placeholder="Write a note..."
       />
-    </div>
+    </Card>
   );
 }
 

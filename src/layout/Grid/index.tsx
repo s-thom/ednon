@@ -11,7 +11,6 @@ import missingIcon from '../../assets/sharp-help-24px.svg';
 interface IGridProps {
   widgetTypes: Map<string, IWidget>;
   widgets?: IDefinition[];
-  showRemoveIcons: boolean;
   onWidgetRemove: (id: string) => void;
 }
 
@@ -49,15 +48,8 @@ export default function Grid(props: IGridProps) {
     );
   }
 
-  const classNames = [
-    'Grid',
-  ];
-  if (props.showRemoveIcons) {
-    classNames.push('removing');
-  }
-
   return (
-    <div className={classNames.join(' ')}>
+    <div className="Grid">
       {
         (props.widgets || []).map((d) => <GridItem {...d} key={d.id} />)
       }

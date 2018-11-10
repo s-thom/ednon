@@ -89,7 +89,6 @@ export default class StorageHelper {
     const transaction = db.transaction(['widgets'], 'readonly');
     const store = transaction.objectStore('widgets');
     const widgets = await store.getAll();
-    console.log(widgets);
     return widgets;
   }
 

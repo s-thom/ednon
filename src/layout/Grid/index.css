@@ -61,29 +61,24 @@
 }
 
 .Grid .remove-button {
-  background-color: #EE3344;
-  border: 0;
+  background-color: #FFFFFF;
   border-radius: 50%;
   position: absolute;
-  width: 1.2em;
-  height: 1.2em;
-  padding: 0;
   top: 0em;
   right: 0em;
   font-size: 0em;
-  transition: font-size 0.3s ease-out;
   z-index: 10;
-}
-
-.Grid .remove-button .icon {
-  fill: #FFFFFF;
-  height: 1em;
-  width: 1em;
+  border: none;
+  outline: none;
   margin: 0 auto;
+  fill: var(--primaryColor);
+  padding: 0.1em;
+  width: 1.2em;
+  height: 1.2em;
 }
 
-.Grid.removing .remove-button {
-  font-size: 1em;
+.Grid .wrapper:hover .remove-button {
+  font-size: 1.3em;
 }
 
 .Grid .missing {
