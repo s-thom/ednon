@@ -1,9 +1,7 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
-import autobind from 'autobind-decorator';
 import './index.css';
-import { IProps } from '../../types';
-import Widget from '../Widget';
+import { IProps, IWidget } from '../../types';
 import iconPath from '../../assets/sharp-speaker_notes-24px.svg';
 import Input from '../../components/Input';
 import Textarea from '../../components/Textarea';
@@ -14,7 +12,7 @@ interface INoteState {
   notes: string;
 }
 
-export default function NotesWidget(props: IProps<INoteState>) {
+function NotesWidget(props: IProps<INoteState>) {
   const [title, setTitle] = useStoredState(props, 'title', 'New Note');
   const [notes, setNotes] = useStoredState(props, 'notes', '');
 
@@ -45,3 +43,12 @@ export default function NotesWidget(props: IProps<INoteState>) {
     </div>
   );
 }
+
+const definition: IWidget = {
+  title: 'Notes',
+  iconPath,
+  component: NotesWidget,
+};
+
+export default definition;
+

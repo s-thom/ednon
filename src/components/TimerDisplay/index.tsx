@@ -47,7 +47,6 @@ export default function TimerDisplay(props: ITimerDisplayProps) {
 
   // The timer is not changing if both times are set, or if both are unset (and default to now)
   // So it is changing if either is set (but not both)
-  console.log(props.startTime ,  props.endTime);
   const isChanging = (props.startTime || props.endTime) && !(props.startTime && props.endTime);
 
   useEffect(() => {

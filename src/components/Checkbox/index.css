@@ -1,0 +1,62 @@
+.Checkbox {
+  position: relative;
+}
+
+.Checkbox .Checkbox-input {
+  height: 0;
+  width: 0;
+  font-size: 0;
+}
+.Checkbox .Checkbox-input + .Checkbox-label {
+  padding-left: 2em;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  display: block;
+  height: 1.1em;
+  line-height: initial;
+  font-size: 1em;
+  color: #1d4383;
+  z-index: 1;
+  top: -0.6em;
+}
+.Checkbox .Checkbox-input + .Checkbox-label::before,
+.Checkbox .Checkbox-input + .Checkbox-label::after {
+  content: '';
+  top: 0;
+  left: 0;
+  margin-top: 0;
+  position: absolute;
+}
+.Checkbox .Checkbox-input + .Checkbox-label::before {
+  top: 0.25em;
+  left: 0.1em;
+  width: 0.4em;
+  height: 0.7em;
+  border-top: 0 solid transparent;
+  border-left: 0 solid transparent;
+  border-right: 0.1em solid #ffffff;
+  border-bottom: 0.1em solid #ffffff;
+  transform: rotateZ(45deg) scale(1);
+  transform-origin: 100% 100%;
+  transition: transform 0.2s ease-in, border 0.2s ease-in;
+  z-index: 1;
+}
+.Checkbox .Checkbox-input + .Checkbox-label::after {
+  background-color: var(--primaryColor);
+  border: 0.1em solid var(--primaryColor);
+  border-radius: 50%;
+  height: 1.2em;
+  width: 1.2em;
+}
+.Checkbox .Checkbox-input:not(:checked) + .Checkbox-label {
+  color: #6b6b6b;
+}
+.Checkbox .Checkbox-input:not(:checked) + .Checkbox-label::before {
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.Checkbox .Checkbox-input:not(:checked) + .Checkbox-label::after {
+  background-color: transparent;
+  border: 0.1em solid #9e9e9e;
+}

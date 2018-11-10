@@ -1,13 +1,13 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import Widget from '../../widgets/Widget';
 import editIcon from '../../assets/sharp-edit-24px.svg';
+import missingIcon from '../../assets/sharp-help-24px.svg';
 import autobind from 'autobind-decorator';
-import { WidgetType } from '../../WidgetMap';
+import { IWidget } from '../../types';
 
 interface IMenuProps {
-  widgetTypes: Map<string, WidgetType>;
+  widgetTypes: Map<string, IWidget>;
   onNewItemClick: (type: string) => void;
   onEditModeChange: (mode: boolean) => void;
 }
@@ -25,8 +25,15 @@ class Menu extends React.Component<IMenuProps, IMenuState> {
     };
   }
 
-  createWidgetButton(type: string, widgetClass: WidgetType) {
-    let actualClass = (widgetClass.prototype instanceof Widget) ? (widgetClass as typeof Widget) : Widget;
+  createWidgetButton(type: string, widgetDefinition: IWidget) {
+    // let actualClass = (widgetClass.prototype instanceof Widget) ? (widgetClass as typeof Widget) : Widget;
+
+    const icon = widgetDefinition ? (
+      <ReactSVG path={widgetDefinition.iconPath} className="icon"></ReactSVG>
+    ) : (
+      <ReactSVG path={missingIcon} className="icon"></ReactSVG>
+    );
+    const title = widgetDefinition ? widgetDefinition.title : 'Unknown';
 
     return (
       <button
@@ -34,8 +41,8 @@ class Menu extends React.Component<IMenuProps, IMenuState> {
         className="menu-item"
         onClick={() => this.props.onNewItemClick(type)}
       >
-        {actualClass.renderIcon()}
-        <span className="item-title">{actualClass.title}</span>
+        {icon}
+        <span className="item-title">{title}</span>
       </button>
     );
   }

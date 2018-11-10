@@ -5,7 +5,6 @@ import Grid from '../Grid';
 import MessageHelper from '../../MessageHelper';
 import StorageHelper from '../../StorageHelper';
 import WidgetMap from '../../WidgetMap';
-import Widget from '../../widgets/Widget';
 import Menu from '../Menu';
 import autobind from 'autobind-decorator';
 import {
@@ -76,19 +75,10 @@ class App extends React.Component<any, IAppState> {
 
     const list = [...this.state.widgets];
 
-
-    const widgetType = WidgetMap.get(type);
-    let defaultData;
-    if (widgetType.prototype instanceof Widget) {
-      defaultData = (widgetType as (typeof Widget)).getDefaultData();
-    } else {
-      defaultData = Widget.getDefaultData();
-    }
-
     const newWidget: IDefinition = {
       id: generateId(),
       type,
-      data: defaultData,
+      data: {},
     };
     list.push(newWidget);
     this.storage.newWidget(newWidget);

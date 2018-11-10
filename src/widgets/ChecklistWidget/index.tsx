@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import { IProps } from '../../types';
+import { IProps, IWidget } from '../../types';
 import iconPath from '../../assets/sharp-check_circle-24px.svg';
 import addIcon from '../../assets/sharp-add-24px.svg';
 import removeIcon from '../../assets/sharp-close-24px.svg';
@@ -62,7 +62,7 @@ function ChecklistItem(props: IChecklistItemProps) {
   );
 }
 
-export default function ChecklistWidget(props: IProps<IChecklistState>) {
+function ChecklistWidget(props: IProps<IChecklistState>) {
   const [title, setTitle] = useStoredState(props, 'title', 'New Checklist');
   const [items, setItems] = useStoredState(props, 'items', []);
 
@@ -119,6 +119,7 @@ export default function ChecklistWidget(props: IProps<IChecklistState>) {
       {
         items.map((item) => (
           <ChecklistItem
+            key={item.id}
             item={item}
             onTextChange={(value) => onChecklistItemTextChange(item.id, value)}
             onCheckedChange={() => onChecklistItemChecked(item.id)}
@@ -136,3 +137,11 @@ export default function ChecklistWidget(props: IProps<IChecklistState>) {
     </div>
   );
 }
+
+const definition: IWidget = {
+  title: 'Check',
+  iconPath,
+  component: ChecklistWidget,
+};
+
+export default definition;
