@@ -222,3 +222,7 @@ export function generateId() {
     ID_DIGITS,
   );
 }
+
+export function stringAppendWithSpace(initial: string, ...values: string[] | undefined) {
+  return `${initial}${values ? ` ${values.join(' ')}` : ''}`;
+}
