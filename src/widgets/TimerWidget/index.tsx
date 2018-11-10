@@ -42,7 +42,8 @@ function TimerWidget(props: IProps<ITimerState>) {
   }
 
   const now = Date.now();
-  const apparentStart = new Date(now - savedTime);
+  const runningStart = running ? startDate : now;
+  const apparentStart = new Date(runningStart - savedTime);
   const apparentEnd = running ? undefined : new Date(now);
 
   const displayProps = {
