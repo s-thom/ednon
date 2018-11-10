@@ -31,10 +31,8 @@
   fill: #484868;
 }
 
-.TimerWidget .TimerDisplay {
+.TimerWidget .timer {
   grid-area: timer;
-  font-family: monospace;
   font-size: 2.5em;
-  text-align: center;
 }
 

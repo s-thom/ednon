@@ -8,8 +8,11 @@ import {
 } from './types';
 import StorageHelper from './StorageHelper';
 
-export default function useStoredState<DataType extends IState, KeyType extends keyof DataType>(widgetProps: IProps<DataType>, key: KeyType): [DataType[KeyType], (newData: DataType[KeyType]) => void] {
-  const initialValue = widgetProps.data[key];
+export default function useStoredState<DataType extends IState, KeyType extends keyof DataType>(widgetProps: IProps<DataType>, key: KeyType, defaultValue?: DataType[KeyType]): [DataType[KeyType], (newData: DataType[KeyType]) => void] {
+  let initialValue = widgetProps.data[key];
+  if (initialValue === undefined) {
+    initialValue = defaultValue;
+  }
   const [value, setValue] = useState(initialValue);
 
   const storage = StorageHelper.getInstance();

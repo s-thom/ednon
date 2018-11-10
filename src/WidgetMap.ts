@@ -7,7 +7,7 @@ import { IProps, IState } from './types';
 export type WidgetType = (typeof Widget) | ((props: IProps<IState>) => JSX.Element);
 
 const WidgetMap = new Map<string, WidgetType>();
-WidgetMap.set('timer', TimerWidget as typeof Widget);
+WidgetMap.set('timer', TimerWidget);
 WidgetMap.set('notes', NotesWidget);
 WidgetMap.set('checklist', ChecklistWidget as typeof Widget);
 

@@ -224,5 +224,5 @@ export function generateId() {
 }
 
 export function stringAppendWithSpace(initial: string, ...values: string[] | undefined) {
-  return `${initial}${values ? ` ${values.join(' ')}` : ''}`;
+  return `${initial}${values ? ` ${values.filter(Boolean).join(' ')}` : ''}`;
 }
