@@ -31,6 +31,9 @@ export default function useStoredState<DataType extends IState, KeyType extends 
 
   function onState(newData: DataType[KeyType]) {
     setValue(newData);
+
+    // Mutate the original object. This is important to avoid weird behaviour
+    widgetProps.data[key] = newData;
   }
 
   return [
