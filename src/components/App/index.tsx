@@ -75,10 +75,20 @@ class App extends React.Component<any, IAppState> {
     }
 
     const list = [...this.state.widgets];
+
+
+    const widgetType = WidgetMap.get(type);
+    let defaultData;
+    if (widgetType.prototype instanceof Widget) {
+      defaultData = (widgetType as (typeof Widget)).getDefaultData();
+    } else {
+      defaultData = Widget.getDefaultData();
+    }
+
     const newWidget: IDefinition = {
       id: generateId(),
       type,
-      data: (WidgetMap.get(type) || Widget).getDefaultData(),
+      data: defaultData,
     };
     list.push(newWidget);
     this.storage.newWidget(newWidget);

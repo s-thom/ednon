@@ -4,9 +4,10 @@ import './index.css';
 import Widget from '../../widgets/Widget';
 import { IDefinition } from '../../types';
 import removeIcon from '../../assets/sharp-close-24px.svg';
+import { WidgetType } from '../../WidgetMap';
 
 interface IGridProps {
-  widgetTypes: Map<string, typeof Widget>;
+  widgetTypes: Map<string, WidgetType>;
   widgets?: IDefinition[];
   showRemoveIcons: boolean;
   onWidgetRemove: (id: string) => void;
@@ -15,7 +16,7 @@ interface IGridProps {
 class Grid extends React.Component<IGridProps> {
 
   createWidget(def: IDefinition) {
-    const Comp: typeof Widget = this.props.widgetTypes.get(def.type) || Widget;
+    const Comp: WidgetType = this.props.widgetTypes.get(def.type) || Widget;
     return (
       <div
         className="wrapper"

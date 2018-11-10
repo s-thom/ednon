@@ -4,9 +4,10 @@ import './index.css';
 import Widget from '../../widgets/Widget';
 import editIcon from '../../assets/sharp-edit-24px.svg';
 import autobind from 'autobind-decorator';
+import { WidgetType } from '../../WidgetMap';
 
 interface IMenuProps {
-  widgetTypes: Map<string, typeof Widget>;
+  widgetTypes: Map<string, WidgetType>;
   onNewItemClick: (type: string) => void;
   onEditModeChange: (mode: boolean) => void;
 }
@@ -24,15 +25,17 @@ class Menu extends React.Component<IMenuProps, IMenuState> {
     };
   }
 
-  createWidgetButton(type: string, widgetClass: typeof Widget) {
+  createWidgetButton(type: string, widgetClass: WidgetType) {
+    let actualClass = (widgetClass.prototype instanceof Widget) ? (widgetClass as typeof Widget) : Widget;
+
     return (
       <button
         key={type}
         className="menu-item"
         onClick={() => this.props.onNewItemClick(type)}
       >
-        {widgetClass.renderIcon()}
-        <span className="item-title">{widgetClass.title}</span>
+        {actualClass.renderIcon()}
+        <span className="item-title">{actualClass.title}</span>
       </button>
     );
   }
