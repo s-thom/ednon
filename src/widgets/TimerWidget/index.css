@@ -1,7 +1,4 @@
 .TimerWidget {
-  background-color: #FFFFFF;
-  border-radius: 0.5em;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 0.3em;
@@ -13,20 +10,7 @@
 
 .TimerWidget .title {
   font-size: 1.3em;
-  border: 0;
   grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #DDDDDD;
-  transition: border-bottom 0.3s ease-out;
-  margin: 0.2em;
-}
-
-.TimerWidget .title:focus {
-  font-size: 1.3em;
-  border: 0;
-  grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #484868;
 }
 
 .TimerWidget .button-row {
@@ -44,10 +28,8 @@
   fill: #484868;
 }
 
-.TimerWidget .TimerDisplay {
+.TimerWidget .timer {
   grid-area: timer;
-  font-family: monospace;
   font-size: 2.5em;
-  text-align: center;
 }
 

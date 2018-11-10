@@ -1,11 +1,16 @@
-import Widget from './widgets/Widget';
+
+// tslint:disable:match-default-export-name
 import TimerWidget from './widgets/TimerWidget';
 import NotesWidget from './widgets/NotesWidget';
 import ChecklistWidget from './widgets/ChecklistWidget';
+// tslint:enable:match-default-export-name
+import {
+  IWidget,
+} from './types';
 
-const WidgetMap = new Map<string, typeof Widget>();
-WidgetMap.set('timer', TimerWidget as typeof Widget);
-WidgetMap.set('notes', NotesWidget as typeof Widget);
-WidgetMap.set('checklist', ChecklistWidget as typeof Widget);
+const WidgetMap = new Map<string, IWidget>();
+WidgetMap.set('timer', TimerWidget);
+WidgetMap.set('notes', NotesWidget);
+WidgetMap.set('checklist', ChecklistWidget);
 
 export default WidgetMap;

@@ -1,0 +1,42 @@
+.Input {
+  position: relative;
+}
+
+.Input .Input-input {
+  border: 0;
+  outline: none;
+  border-bottom: 0.1em solid #DDDDDD;
+  transition: border-bottom 0.3s ease-out;
+  margin: 0.2em;
+  width: calc(100% - 0.4em);
+  color: inherit;
+}
+
+.Input.has-label .Input-input {
+  margin-top: calc(0.2em + (0.8 * 0.8em));
+}
+
+.Input .Input-input:focus {
+  border-bottom: 0.1em solid #484868;
+}
+
+.Input .Input-label {
+  position: absolute;
+  color: #525252;
+  transition: border-bottom 0.3s ease-out, top 0.3s ease-out, left 0.3s ease-out, font-size 0.3s ease-out;
+  top: 1em;
+  left: 0.2em;
+}
+
+.Input .Input-input:focus ~ .Input-label,
+.Input.has-value .Input-input ~ .Input-label {
+  top: 0;
+  font-size: 0.8em;
+}
+
+.Input .Input-required {
+  position: absolute;
+  right: 0;
+  bottom: 0.6em;
+  color: #EA0000;
+}

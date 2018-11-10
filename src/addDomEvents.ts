@@ -1,6 +1,9 @@
 import MessageHelper from './MessageHelper';
-import { MessageSeverity } from './types';
+import {
+  MessageSeverity,
+} from './types';
 
+// tslint:disable-next-line:no-any
 let installEvent: any = null;
 const messageHelper = MessageHelper.getInstance();
 
@@ -26,7 +29,6 @@ function onUserWantInstall() {
     installEvent = null;
   });
 }
-
 
 export default function addDomEvents() {
   window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);

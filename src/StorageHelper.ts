@@ -1,19 +1,12 @@
 // tslint:disable:no-console
-import idb, { DB } from 'idb';
+import idb, {
+  DB,
+} from 'idb';
 
 import {
-  pReduce,
-} from './util';
-import { IState, IDefinition } from './types';
-
-interface IUpgrade {
-  from: number;
-  to: number;
-  fn: () => IDBTransaction;
-}
-
-// tslint:disable-next-line:no-any
-const IndexedDB: IDBFactory = window.indexedDB || (window as any).mozIndexedDB || (window as any).webkitIndexedDB || (window as any).msIndexedDB;
+  IDefinition,
+  IState,
+} from './types';
 
 const DB_NAME = 'ednon';
 const DB_VERSION = 1;
@@ -43,60 +36,67 @@ export default class StorageHelper {
     });
   }
 
-  ready() {
-    return this.dbPromise.then(
-      () => true,
-      (err) => {
-        console.error(err);
-        return false;
-      },
-    );
+  async ready() {
+    try {
+      await this.dbPromise;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+    return true;
   }
 
-  newWidget(def: IDefinition) {
-    return this.dbPromise
-      .then(db => db.transaction(['widgets'], 'readwrite'))
-      .then(async (transaction) => {
-        const store = transaction.objectStore('widgets');
-        return store.add(def);
-      });
+  async newWidget(def: IDefinition) {
+    const db = await this.dbPromise;
+    const transaction = db.transaction(['widgets'], 'readwrite');
+    const store = transaction.objectStore('widgets');
+    return store.add(def);
   }
 
-  saveWidgetState(widgetId: string, state: IState) {
-     return this.dbPromise
-      .then(db => db.transaction(['widgets'], 'readwrite'))
-      .then(async (transaction) => {
-        const store = transaction.objectStore('widgets');
-        const widget = await store.get(widgetId);
-        try {
-          widget.data = state;
-        } catch (err) {
-          console.error(`Tried to update state of widget ${widgetId}, but it does not exist`);
-          return null;
-        }
-        return store.put(widget);
-      });
+  async saveWidgetState(widgetId: string, state: IState) {
+    const db = await this.dbPromise;
+    const transaction = db.transaction(['widgets'], 'readwrite');
+    const store = transaction.objectStore('widgets');
+    const widget = await store.get(widgetId);
+    try {
+      widget.data = state;
+    } catch (err) {
+      console.error(`Tried to update state of widget ${widgetId}, but it does not exist`);
+      return null;
+    }
+    return store.put(widget);
   }
 
-  getAllWidgets() {
-    return this.dbPromise
-      .then(db => db.transaction(['widgets'], 'readonly'))
-      .then(async (transaction) => {
-        const store = transaction.objectStore('widgets');
-        const widgets = await store.getAll();
-        console.log(widgets);
-        return widgets;
-      });
+  // tslint:disable-next-line:no-any
+  async saveWidgetKey(widgetId: string, key: string, value: any) {
+    const db = await this.dbPromise;
+    const transaction = db.transaction(['widgets'], 'readwrite');
+    const store = transaction.objectStore('widgets');
+    const widget = await store.get(widgetId);
+    try {
+      if (widget.data) {
+        widget.data[key] = value;
+      }
+    } catch (err) {
+      console.error(`Tried to update state of widget ${widgetId}, but it does not exist`);
+      return null;
+    }
+    return store.put(widget);
   }
 
-  removeWidget(widgetId: string) {
-    return this.dbPromise
-      .then(db => db.transaction(['widgets'], 'readwrite'))
-      .then(async (transaction) => {
-        const store = transaction.objectStore('widgets');
-        await store.delete(widgetId);
-        return;
-      });
+  async getAllWidgets() {
+    const db = await this.dbPromise;
+    const transaction = db.transaction(['widgets'], 'readonly');
+    const store = transaction.objectStore('widgets');
+    const widgets = await store.getAll();
+    return widgets;
+  }
+
+  async removeWidget(widgetId: string) {
+    const db = await this.dbPromise;
+    const transaction = db.transaction(['widgets'], 'readwrite');
+    const store = transaction.objectStore('widgets');
+    await store.delete(widgetId);
   }
 
 }

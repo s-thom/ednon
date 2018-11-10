@@ -6,7 +6,7 @@ export default class IntervalHelper {
   private static instance: IntervalHelper;
 
   private animFrameHandle: number;
-  private functions: HandleFunction[];
+  private readonly functions: HandleFunction[];
 
   static getInstance() {
     if (!this.instance) {
@@ -27,10 +27,12 @@ export default class IntervalHelper {
       try {
         fn();
       } catch (err) {
+        // tslint:disable-next-line:no-console
         console.error('Interval handle threw error', err);
       }
     });
 
+    // tslint:disable-next-line:no-unbound-method
     this.animFrameHandle = requestAnimationFrame(this.animFrameFn);
   }
 
@@ -43,6 +45,7 @@ export default class IntervalHelper {
     this.functions.push(fn);
 
     if (!this.animFrameHandle) {
+      // tslint:disable-next-line:no-unbound-method
       this.animFrameHandle = requestAnimationFrame(this.animFrameFn);
     }
   }

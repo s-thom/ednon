@@ -5,5 +5,12 @@
       "config/**/*.js",
       "node_modules/**/*.ts"
     ]
+  },
+  "rules": {
+    "prefer-method-signature": false,
+    "arrow-parens": {
+      "severity": "warning"
+    },
+    "no-unsafe-any": false
   }
 }
