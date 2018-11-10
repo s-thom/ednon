@@ -1,7 +1,10 @@
 import * as React from 'react';
 
 import './index.css';
-import { zeroPad, stringAppendWithSpace } from '../../util';
+import {
+  stringAppendWithSpace,
+  zeroPad,
+} from '../../util';
 
 const {
   useEffect,

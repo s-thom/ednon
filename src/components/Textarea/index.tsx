@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { stringAppendWithSpace } from 'src/util';
+import {
+  stringAppendWithSpace,
+} from '../../util';
 
 import './index.css';
 

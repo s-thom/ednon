@@ -1,7 +1,9 @@
 import * as React from 'react';
-import ReactSVG from 'react-svg';
 import './index.css';
-import { IProps, IWidget } from '../../types';
+import {
+  IProps,
+  IWidget,
+} from '../../types';
 import iconPath from '../../assets/sharp-speaker_notes-24px.svg';
 import Input from '../../components/Input';
 import Textarea from '../../components/Textarea';
@@ -51,4 +53,3 @@ const definition: IWidget = {
 };
 
 export default definition;
-

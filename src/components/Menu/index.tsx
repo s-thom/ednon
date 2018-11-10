@@ -4,7 +4,9 @@ import './index.css';
 import editIcon from '../../assets/sharp-edit-24px.svg';
 import missingIcon from '../../assets/sharp-help-24px.svg';
 import autobind from 'autobind-decorator';
-import { IWidget } from '../../types';
+import {
+  IWidget,
+} from '../../types';
 
 interface IMenuProps {
   widgetTypes: Map<string, IWidget>;
@@ -70,6 +72,7 @@ class Menu extends React.Component<IMenuProps, IMenuState> {
         <div className="menu-section edit-mode">
           <button
             className={editClasses.join(' ')}
+            // tslint:disable-next-line:no-unbound-method
             onClick={this.toggleEditState}
           >
             <ReactSVG path={editIcon} className="icon"></ReactSVG>
@@ -79,7 +82,7 @@ class Menu extends React.Component<IMenuProps, IMenuState> {
         <div className="menu-section add-items">
           {
             Array.from(this.props.widgetTypes.entries())
-              .map(entry => this.createWidgetButton(entry[0], entry[1]))
+              .map((entry) => this.createWidgetButton(entry[0], entry[1]))
           }
         </div>
       </div>

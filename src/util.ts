@@ -26,8 +26,8 @@ export function zeroPad(numberToPad: number | string, length: number) {
  * @export
  * @param ms Number of milliseconds to delay by
  */
-export function delay(ms) {
-  return new Promise((resolve, reject) => {
+export async function delay(ms) {
+  return new Promise<void>((resolve, reject) => {
     setTimeout(resolve, ms);
   });
 }
@@ -41,7 +41,7 @@ export function delay(ms) {
  * @param fn Mapping function
  * @returns Mapped array
  */
-export function pMap<T, U>(array: T[], fn: (item: T) => Promise<U>) {
+export async function pMap<T, U>(array: T[], fn: (item: T) => Promise<U>) {
   return Promise.all(array.map(fn));
 }
 
@@ -55,14 +55,14 @@ export function pMap<T, U>(array: T[], fn: (item: T) => Promise<U>) {
  * @returns Filtered array
  */
 export async function pFilter<T>(array: T[], fn: (item: T) => Promise<boolean>) {
-  const combinedPromises = await pMap(array, async item => ({
+  const combinedPromises = await pMap(array, async (item) => ({
     item,
     filter: await fn(item),
   }));
 
   return combinedPromises
-    .filter(i => i.filter)
-    .map(i => i.item);
+    .filter((i) => i.filter)
+    .map((i) => i.item);
 }
 
 /**
@@ -73,11 +73,11 @@ export async function pFilter<T>(array: T[], fn: (item: T) => Promise<boolean>) 
  * @param initial Initial value for reducer
  * @returns Result of reduction
  */
-export function pReduce<T, U>(array: T[], fn: (prev: U, curr: T) => Promise<U>, initial: U) {
+export async function pReduce<T, U>(array: T[], fn: (prev: U, curr: T) => Promise<U>, initial: U) {
   return array.reduce(
-    (prom, current) => {
-      return prom
-        .then(previous => fn(previous, current));
+    async (prom, current) => {
+      const previous = await prom;
+      return fn(previous, current);
     },
     Promise.resolve(initial),
   );
@@ -224,5 +224,6 @@ export function generateId() {
 }
 
 export function stringAppendWithSpace(initial: string, ...values: string[] | undefined) {
+  // tslint:disable-next-line:newline-per-chained-call
   return `${initial}${values ? ` ${values.filter(Boolean).join(' ')}` : ''}`;
 }

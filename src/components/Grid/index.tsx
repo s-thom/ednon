@@ -1,7 +1,10 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import { IDefinition, IWidget } from '../../types';
+import {
+  IDefinition,
+  IWidget,
+} from '../../types';
 import removeIcon from '../../assets/sharp-close-24px.svg';
 import missingIcon from '../../assets/sharp-help-24px.svg';
 
@@ -12,10 +15,9 @@ interface IGridProps {
   onWidgetRemove: (id: string) => void;
 }
 
-class Grid extends React.Component<IGridProps> {
-
-  createWidget(def: IDefinition) {
-    const Comp = this.props.widgetTypes.get(def.type);
+export default function Grid(props: IGridProps) {
+  function GridItem(def: IDefinition) {
+    const Comp = props.widgetTypes.get(def.type);
     return (
       <div
         className="wrapper"
@@ -23,7 +25,7 @@ class Grid extends React.Component<IGridProps> {
       >
         <button
           className="remove-button"
-          onClick={() => this.props.onWidgetRemove(def.id)}
+          onClick={() => props.onWidgetRemove(def.id)}
         >
           <ReactSVG path={removeIcon} className="icon"></ReactSVG>
         </button>
@@ -41,28 +43,24 @@ class Grid extends React.Component<IGridProps> {
     );
   }
 
-  render() {
-    if (!this.props.widgets) {
-      return (
-        <p>loading</p>
-      );
-    }
-
-    const classNames = [
-      'Grid',
-    ];
-    if (this.props.showRemoveIcons) {
-      classNames.push('removing');
-    }
-
+  if (!props.widgets) {
     return (
-      <div className={classNames.join(' ')}>
-        {
-          (this.props.widgets || []).map(d => this.createWidget(d))
-        }
-      </div>
+      <p>loading</p>
     );
   }
-}
 
-export default Grid;
+  const classNames = [
+    'Grid',
+  ];
+  if (props.showRemoveIcons) {
+    classNames.push('removing');
+  }
+
+  return (
+    <div className={classNames.join(' ')}>
+      {
+        (props.widgets || []).map((d) => <GridItem {...d} key={d.id} />)
+      }
+    </div>
+  );
+}

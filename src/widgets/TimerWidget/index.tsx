@@ -1,7 +1,10 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import { IProps, IWidget } from '../../types';
+import {
+  IProps,
+  IWidget,
+} from '../../types';
 import iconPath from '../../assets/sharp-timer-24px.svg';
 import playIcon from '../../assets/sharp-play_arrow-24px.svg';
 import pauseIcon from '../../assets/sharp-pause-24px.svg';

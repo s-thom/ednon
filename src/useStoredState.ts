@@ -17,9 +17,17 @@ export default function useStoredState<DataType extends IState, KeyType extends 
 
   const storage = StorageHelper.getInstance();
 
-  useEffect(() => {
-    storage.saveWidgetKey(widgetProps.id, key.toString(), value);
-  }, [value]);
+  useEffect(
+    () => {
+      // tslint:disable-next-line:no-floating-promises
+      storage
+        .saveWidgetKey(widgetProps.id, key.toString(), value)
+        // Don't care about promise resolution or rejection
+        // tslint:disable-next-line:no-empty
+        .then(() => {});
+    },
+    [value],
+  );
 
   function onState(newData: DataType[KeyType]) {
     setValue(newData);

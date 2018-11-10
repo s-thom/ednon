@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { stringAppendWithSpace } from 'src/util';
+import {
+  stringAppendWithSpace,
+} from '../../util';
 
 import './index.css';
 
@@ -16,7 +18,7 @@ interface ICheckboxProps {
   name?: string;
 }
 
-export default function Textarea(props: ICheckboxProps) {
+export default function Checkbox(props: ICheckboxProps) {
   const [checked, setChecked] = useState(props.checked);
 
   const wrapperClasses = [

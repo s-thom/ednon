@@ -1,11 +1,16 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import { IProps, IWidget } from '../../types';
+import {
+  IProps,
+  IWidget,
+} from '../../types';
 import iconPath from '../../assets/sharp-check_circle-24px.svg';
 import addIcon from '../../assets/sharp-add-24px.svg';
 import removeIcon from '../../assets/sharp-close-24px.svg';
-import { generateId } from '../../util';
+import {
+  generateId,
+} from '../../util';
 import Input from '../../components/Input';
 import Checkbox from '../../components/Checkbox';
 import useStoredState from '../../useStoredState';

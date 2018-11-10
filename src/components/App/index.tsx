@@ -23,10 +23,11 @@ interface IAppState {
   editing: boolean;
 }
 
+// tslint:disable:no-floating-promises
 // tslint:disable-next-line:no-any
 class App extends React.Component<any, IAppState> {
-  private storage: StorageHelper;
-  private messageHelper: MessageHelper;
+  private readonly storage: StorageHelper;
+  private readonly messageHelper: MessageHelper;
 
   constructor(props) {
     super(props);
@@ -38,6 +39,7 @@ class App extends React.Component<any, IAppState> {
     };
 
     this.messageHelper = MessageHelper.getInstance();
+    // tslint:disable-next-line:no-unbound-method
     this.messageHelper.addListener(this.onMessageAdd);
 
     this.storage = StorageHelper.getInstance();
@@ -45,7 +47,7 @@ class App extends React.Component<any, IAppState> {
       .then((isReady) => {
         if (!isReady) {
           this.messageHelper.send(MessageSeverity.ERROR, 'Unable to open database', 'Further information is available in the developer tools');
-          return;
+          return undefined;
         }
 
         this.getListAndSetState();
@@ -53,6 +55,7 @@ class App extends React.Component<any, IAppState> {
   }
 
   componentWillUnmount() {
+    // tslint:disable-next-line:no-unbound-method
     this.messageHelper.removeListener(this.onMessageAdd);
   }
 
@@ -96,7 +99,7 @@ class App extends React.Component<any, IAppState> {
       return;
     }
 
-    const list = this.state.widgets.filter(d => d.id !== id);
+    const list = this.state.widgets.filter((d) => d.id !== id);
     this.storage.removeWidget(id);
 
     this.setState({
@@ -126,7 +129,7 @@ class App extends React.Component<any, IAppState> {
 
   @autobind
   onMessageRemove(id: string) {
-    const list = this.state.messages.filter(m => m.id !== id);
+    const list = this.state.messages.filter((m) => m.id !== id);
 
     this.setState({
       ...this.state,
@@ -135,6 +138,7 @@ class App extends React.Component<any, IAppState> {
   }
 
   render() {
+    // tslint:disable:no-unbound-method
     return (
       <div className="App">
         <Menu
@@ -154,7 +158,9 @@ class App extends React.Component<any, IAppState> {
         />
       </div>
     );
+    // tslint:enable:no-unbound-method
   }
 }
+// tslint:enable:no-floating-promises
 
 export default App;

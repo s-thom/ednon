@@ -1,5 +1,3 @@
-import StorageHelper from './StorageHelper';
-
 export interface IDefinition<State extends IState = IState> {
   id: string;
   type: string;

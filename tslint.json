@@ -7,6 +7,10 @@
     ]
   },
   "rules": {
-    "prefer-method-signature": false
+    "prefer-method-signature": false,
+    "arrow-parens": {
+      "severity": "warning"
+    },
+    "no-unsafe-any": false
   }
 }

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import autobind from 'autobind-decorator';
-import { IDisplayMessage } from '../../types';
+import {
+  IDisplayMessage,
+} from '../../types';
 import removeIcon from '../../assets/sharp-close-24px.svg';
 
 interface IMessageProps {
@@ -26,6 +27,7 @@ class Message extends React.Component<IMessageProps> {
                 try {
                   action.onClick();
                 } catch (err) {
+                  // tslint:disable-next-line:no-console
                   console.error('Error in action click');
                 }
                 this.props.onMessageRemoveClick(message.id);
