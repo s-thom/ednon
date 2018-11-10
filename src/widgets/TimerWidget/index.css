@@ -13,20 +13,7 @@
 
 .TimerWidget .title {
   font-size: 1.3em;
-  border: 0;
   grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #DDDDDD;
-  transition: border-bottom 0.3s ease-out;
-  margin: 0.2em;
-}
-
-.TimerWidget .title:focus {
-  font-size: 1.3em;
-  border: 0;
-  grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #484868;
 }
 
 .TimerWidget .button-row {
@@ -44,10 +31,8 @@
   fill: #484868;
 }
 
-.TimerWidget .TimerDisplay {
+.TimerWidget .timer {
   grid-area: timer;
-  font-family: monospace;
   font-size: 2.5em;
-  text-align: center;
 }
 

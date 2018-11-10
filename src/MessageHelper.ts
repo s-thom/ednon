@@ -1,13 +1,18 @@
-import { IDisplayMessage, MessageSeverity, IDisplayMessageAction } from './types';
-import { generateId } from './util';
+import {
+  IDisplayMessage,
+  IDisplayMessageAction,
+  MessageSeverity,
+} from './types';
+import {
+  generateId,
+} from './util';
 
 type HandleFunction = (message: IDisplayMessage) => void;
 
 export default class MessageHelper {
   private static instance: MessageHelper;
 
-  private animFrameHandle: number;
-  private functions: HandleFunction[];
+  private readonly functions: HandleFunction[];
 
   static getInstance() {
     if (!this.instance) {
@@ -52,6 +57,7 @@ export default class MessageHelper {
       try {
         fn(newMesage);
       } catch (err) {
+        // tslint:disable-next-line:no-console
         console.error('Error in message handler function');
       }
     });

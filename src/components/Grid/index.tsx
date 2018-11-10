@@ -1,21 +1,23 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import Widget from '../../widgets/Widget';
-import { IDefinition } from '../../types';
+import {
+  IDefinition,
+  IWidget,
+} from '../../types';
 import removeIcon from '../../assets/sharp-close-24px.svg';
+import missingIcon from '../../assets/sharp-help-24px.svg';
 
 interface IGridProps {
-  widgetTypes: Map<string, typeof Widget>;
+  widgetTypes: Map<string, IWidget>;
   widgets?: IDefinition[];
   showRemoveIcons: boolean;
   onWidgetRemove: (id: string) => void;
 }
 
-class Grid extends React.Component<IGridProps> {
-
-  createWidget(def: IDefinition) {
-    const Comp: typeof Widget = this.props.widgetTypes.get(def.type) || Widget;
+export default function Grid(props: IGridProps) {
+  function GridItem(def: IDefinition) {
+    const Comp = props.widgetTypes.get(def.type);
     return (
       <div
         className="wrapper"
@@ -23,42 +25,42 @@ class Grid extends React.Component<IGridProps> {
       >
         <button
           className="remove-button"
-          onClick={() => this.props.onWidgetRemove(def.id)}
+          onClick={() => props.onWidgetRemove(def.id)}
         >
           <ReactSVG path={removeIcon} className="icon"></ReactSVG>
         </button>
-        <Comp
+        {Comp ? (
+          <Comp.component
           id={def.id}
           type={def.type}
           data={def.data}
         />
+        ) : (
+          <ReactSVG path={missingIcon} className="missing"></ReactSVG>
+        )}
       </div>
 
     );
   }
 
-  render() {
-    if (!this.props.widgets) {
-      return (
-        <p>loading</p>
-      );
-    }
-
-    const classNames = [
-      'Grid',
-    ];
-    if (this.props.showRemoveIcons) {
-      classNames.push('removing');
-    }
-
+  if (!props.widgets) {
     return (
-      <div className={classNames.join(' ')}>
-        {
-          (this.props.widgets || []).map(d => this.createWidget(d))
-        }
-      </div>
+      <p>loading</p>
     );
   }
-}
 
-export default Grid;
+  const classNames = [
+    'Grid',
+  ];
+  if (props.showRemoveIcons) {
+    classNames.push('removing');
+  }
+
+  return (
+    <div className={classNames.join(' ')}>
+      {
+        (props.widgets || []).map((d) => <GridItem {...d} key={d.id} />)
+      }
+    </div>
+  );
+}

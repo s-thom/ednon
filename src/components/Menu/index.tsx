@@ -1,80 +1,85 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import Widget from '../../widgets/Widget';
 import editIcon from '../../assets/sharp-edit-24px.svg';
-import autobind from 'autobind-decorator';
+import missingIcon from '../../assets/sharp-help-24px.svg';
+import {
+  IWidget,
+} from '../../types';
+
+const {
+  useState,
+} = React;
 
 interface IMenuProps {
-  widgetTypes: Map<string, typeof Widget>;
+  widgetTypes: Map<string, IWidget>;
   onNewItemClick: (type: string) => void;
   onEditModeChange: (mode: boolean) => void;
 }
 
-interface IMenuState {
-  editActive: boolean;
+interface IWidgetButtonProps {
+  definition: IWidget;
+  onClick: () => void;
 }
 
-class Menu extends React.Component<IMenuProps, IMenuState> {
-  constructor(props: IMenuProps) {
-    super(props);
+function WidgetButton(props: IWidgetButtonProps) {
+  // let actualClass = (widgetClass.prototype instanceof Widget) ? (widgetClass as typeof Widget) : Widget;
 
-    this.state = {
-      editActive: false,
-    };
+  const icon = props.definition ? (
+    <ReactSVG path={props.definition.iconPath} className="icon"></ReactSVG>
+  ) : (
+    <ReactSVG path={missingIcon} className="icon"></ReactSVG>
+  );
+  const title = props.definition ? props.definition.title : 'Unknown';
+
+  return (
+    <button
+      key={props.definition.title}
+      className="menu-item"
+      onClick={props.onClick}
+    >
+      {icon}
+      <span className="item-title">{title}</span>
+    </button>
+  );
+}
+
+export default function Menu(props: IMenuProps) {
+  const [editActive, setEditActive] = useState(false);
+
+  function toggleEditState() {
+    const newMode = !editActive;
+    setEditActive(newMode);
+
+    props.onEditModeChange(newMode);
   }
 
-  createWidgetButton(type: string, widgetClass: typeof Widget) {
-    return (
-      <button
-        key={type}
-        className="menu-item"
-        onClick={() => this.props.onNewItemClick(type)}
-      >
-        {widgetClass.renderIcon()}
-        <span className="item-title">{widgetClass.title}</span>
-      </button>
-    );
+  const editClasses = ['menu-item'];
+  if (editActive) {
+    editClasses.push('active');
   }
 
-  @autobind
-  toggleEditState() {
-    const newMode = !this.state.editActive;
-
-    this.props.onEditModeChange(newMode);
-
-    this.setState({
-      ...this.state,
-      editActive: newMode,
-    });
-  }
-
-  render() {
-    const editClasses = ['menu-item'];
-    if (this.state.editActive) {
-      editClasses.push('active');
-    }
-
-    return (
-      <div className="Menu">
-        <div className="menu-section edit-mode">
-          <button
-            className={editClasses.join(' ')}
-            onClick={this.toggleEditState}
-          >
-            <ReactSVG path={editIcon} className="icon"></ReactSVG>
-            <span className="item-title">Edit</span>
-          </button>
-        </div>
-        <div className="menu-section add-items">
-          {
-            Array.from(this.props.widgetTypes.entries())
-              .map(entry => this.createWidgetButton(entry[0], entry[1]))
-          }
-        </div>
+  return (
+    <div className="Menu">
+      <div className="menu-section edit-mode">
+        <button
+          className={editClasses.join(' ')}
+          onClick={toggleEditState}
+        >
+          <ReactSVG path={editIcon} className="icon"></ReactSVG>
+          <span className="item-title">Edit</span>
+        </button>
       </div>
-    );
-  }
+      <div className="menu-section add-items">
+        {
+          Array.from(props.widgetTypes.entries())
+            .map(([type, widget]) => <WidgetButton
+              key={type}
+              definition={widget}
+              onClick={() => props.onNewItemClick(type)}
+            />)
+        }
+      </div>
+    </div>
+  );
 }
-
-export default Menu;

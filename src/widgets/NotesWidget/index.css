@@ -12,27 +12,9 @@
 
 .NotesWidget .title {
   font-size: 1.3em;
-  border: 0;
   grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #DDDDDD;
-  transition: border-bottom 0.3s ease-out;
-  margin: 0.2em;
-}
-
-.NotesWidget .title:focus {
-  font-size: 1.3em;
-  border: 0;
-  grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #484868;
 }
 
 .NotesWidget .notes {
   grid-area: notes;
-  resize: vertical;
-  min-height: 5em;
-  outline: none;
-  border: none;
-  margin: 0.2em;
 }

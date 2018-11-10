@@ -1,8 +1,8 @@
 import * as React from 'react';
-import ReactSVG from 'react-svg';
 import './index.css';
-import autobind from 'autobind-decorator';
-import { IDisplayMessage } from '../../types';
+import {
+  IDisplayMessage,
+} from '../../types';
 import Message from './Message';
 
 interface IMessageListProps {
@@ -10,20 +10,16 @@ interface IMessageListProps {
   onMessageRemoveClick: (id: string) => void;
 }
 
-class MessageList extends React.Component<IMessageListProps> {
-  render() {
-    return (
-      <div className="MessageList">
-        {this.props.messages.map(m => (
-          <Message
-            key={m.id}
-            message={m}
-            onMessageRemoveClick={this.props.onMessageRemoveClick}
-          />
-        ))}
-      </div>
-    );
-  }
+export default function MessageList(props: IMessageListProps) {
+  return (
+    <div className="MessageList">
+      {props.messages.map((m) => (
+        <Message
+          key={m.id}
+          message={m}
+          onMessageRemoveClick={props.onMessageRemoveClick}
+        />
+      ))}
+    </div>
+  );
 }
-
-export default MessageList;
