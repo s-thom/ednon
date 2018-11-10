@@ -10,20 +10,16 @@ interface IMessageListProps {
   onMessageRemoveClick: (id: string) => void;
 }
 
-class MessageList extends React.Component<IMessageListProps> {
-  render() {
-    return (
-      <div className="MessageList">
-        {this.props.messages.map((m) => (
-          <Message
-            key={m.id}
-            message={m}
-            onMessageRemoveClick={this.props.onMessageRemoveClick}
-          />
-        ))}
-      </div>
-    );
-  }
+export default function MessageList(props: IMessageListProps) {
+  return (
+    <div className="MessageList">
+      {props.messages.map((m) => (
+        <Message
+          key={m.id}
+          message={m}
+          onMessageRemoveClick={props.onMessageRemoveClick}
+        />
+      ))}
+    </div>
+  );
 }
-
-export default MessageList;
