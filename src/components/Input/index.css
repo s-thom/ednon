@@ -9,6 +9,7 @@
   transition: border-bottom 0.3s ease-out;
   margin: 0.2em;
   width: calc(100% - 0.4em);
+  color: inherit;
 }
 
 .Input.has-label .Input-input {

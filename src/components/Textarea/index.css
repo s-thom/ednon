@@ -1,0 +1,15 @@
+.Textarea {
+
+}
+
+.Textarea-input {
+  resize: vertical;
+  min-height: 5em;
+  outline: none;
+  border: none;
+  margin: 0.2em;
+  margin-bottom: 0;
+  color: inherit;
+  width: calc(100% - 0.4em);
+  padding: 0;
+}

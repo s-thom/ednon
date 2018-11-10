@@ -12,21 +12,8 @@
 }
 
 .ChecklistWidget .title {
-  font-size: 1.3em;
-  border: 0;
   grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #DDDDDD;
-  transition: border-bottom 0.3s ease-out;
-  margin: 0.2em;
-}
-
-.ChecklistWidget .title:focus {
   font-size: 1.3em;
-  border: 0;
-  grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #484868;
 }
 
 .ChecklistWidget .list {
@@ -101,16 +88,7 @@
 
 .ChecklistWidget .list .check-text {
   font-size: 1.3em;
-  border: 0;
-  grid-area: title;
-  outline: none;
-  border-bottom: 0.1em solid #DDDDDD;
-  transition: border-bottom 0.3s ease-out;
-  margin: 0.2em;
-  flex-grow: 1;
-}
-.ChecklistWidget .list .check-text:focus {
-  border-bottom: 0.1em solid var(--primaryColor);
+  width: 100%;
 }
 
 .ChecklistWidget .list .check-check:checked ~ .check-text {

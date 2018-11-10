@@ -17,9 +17,4 @@
 
 .NotesWidget .notes {
   grid-area: notes;
-  resize: vertical;
-  min-height: 5em;
-  outline: none;
-  border: none;
-  margin: 0.2em;
 }

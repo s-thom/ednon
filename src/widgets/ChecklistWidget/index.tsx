@@ -8,6 +8,7 @@ import iconPath from '../../assets/sharp-check_circle-24px.svg';
 import addIcon from '../../assets/sharp-add-24px.svg';
 import removeIcon from '../../assets/sharp-close-24px.svg';
 import { generateId } from '../../util';
+import Input from 'src/components/Input';
 
 interface IChecklistItem {
   id: string;
@@ -43,10 +44,10 @@ class ChecklistWidget extends Widget<IChecklistState> {
   }
 
   @autobind
-  onTitleChange(event: React.FormEvent) {
+  onTitleValueChange(value: string) {
     this.setState({
       ...this.state,
-      title: (event.target as any).value,
+      title: value,
     });
   }
 
@@ -108,13 +109,12 @@ class ChecklistWidget extends Widget<IChecklistState> {
   render() {
     return (
       <div className="ChecklistWidget">
-        <input
+        <Input
           className="title"
-          type="text"
           name={`${this.props.id}-title`}
           id={`${this.props.id}-title`}
           value={this.state.title}
-          onChange={this.onTitleChange}
+          onChange={this.onTitleValueChange}
         />
         <div className="list">
         {
@@ -132,13 +132,12 @@ class ChecklistWidget extends Widget<IChecklistState> {
                 onChange={() => this.onChecklistItemChecked(item.id)}
               />
               <label htmlFor={`${this.props.id}-${item.id}-check`}></label>
-              <input
+              <Input
                 className="check-text"
-                type="text"
                 name={`${this.props.id}-${item.id}-text`}
                 id={`${this.props.id}-${item.id}-text`}
                 value={item.text}
-                onChange={(e) => this.onChecklistItemTextChange(item.id, e.target.value)}
+                onChange={(value) => this.onChecklistItemTextChange(item.id, value)}
               />
               <button
                 className="remove"

@@ -10,6 +10,7 @@ import playIcon from '../../assets/sharp-play_arrow-24px.svg';
 import pauseIcon from '../../assets/sharp-pause-24px.svg';
 import Stopwatch from './Stopwatch';
 import { createMinPeriodTimeout } from '../../util';
+import Input from 'src/components/Input';
 
 const STOPWATCH_DB_UPDATE_PERIOD = 1000;
 
@@ -87,10 +88,10 @@ class TimerWidget extends Widget<ITimerState> {
   }
 
   @autobind
-  onTitleChange(event: React.FormEvent) {
+  onTitleValueChange(value: string) {
     this.setState({
       ...this.state,
-      title: (event.target as any).value,
+      title: value,
     });
   }
 
@@ -105,13 +106,12 @@ class TimerWidget extends Widget<ITimerState> {
   render() {
     return (
       <div className="TimerWidget">
-        <input
+        <Input
           className="title"
-          type="text"
           name={`${this.props.id}-title`}
           id={`${this.props.id}-title`}
           value={this.state.title}
-          onChange={this.onTitleChange}
+          onChange={this.onTitleValueChange}
         />
         <div className="button-row">
           <button
