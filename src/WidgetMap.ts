@@ -9,6 +9,6 @@ export type WidgetType = (typeof Widget) | ((props: IProps<IState>) => JSX.Eleme
 const WidgetMap = new Map<string, WidgetType>();
 WidgetMap.set('timer', TimerWidget);
 WidgetMap.set('notes', NotesWidget);
-WidgetMap.set('checklist', ChecklistWidget as typeof Widget);
+WidgetMap.set('checklist', ChecklistWidget);
 
 export default WidgetMap;

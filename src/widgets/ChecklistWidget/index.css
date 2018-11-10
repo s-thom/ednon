@@ -22,68 +22,9 @@
   margin: 0.2em;
 }
 
-.ChecklistWidget .list .check-item {
+.ChecklistWidget .list .Checklist-item {
   display: flex;
   margin: 0.3em 0;
-  align-items: baseline;
-}
-
-.ChecklistWidget .list .check-check {
-  height: 0;
-  width: 0;
-  font-size: 0;
-}
-.ChecklistWidget .list .check-check + label {
-  padding-left: 2em;
-  vertical-align: middle;
-  position: relative;
-  cursor: pointer;
-  display: block;
-  height: 1.1em;
-  line-height: initial;
-  font-size: 1em;
-  color: #1d4383;
-  z-index: 1;
-}
-.ChecklistWidget .list .check-check + label::before,
-.ChecklistWidget .list .check-check + label::after {
-  content: '';
-  top: 0;
-  left: 0;
-  margin-top: 0;
-  position: absolute;
-}
-.ChecklistWidget .list .check-check + label::before {
-  top: 0.18em;
-  left: 0.14em;
-  width: 0.4em;
-  height: 0.7em;
-  border-top: 0 solid transparent;
-  border-left: 0 solid transparent;
-  border-right: 0.1em solid #ffffff;
-  border-bottom: 0.1em solid #ffffff;
-  transform: rotateZ(37deg) scale(1);
-  transform-origin: 100% 100%;
-  transition: transform 0.2s ease-in, border 0.2s ease-in;
-  z-index: 1;
-}
-.ChecklistWidget .list .check-check + label::after {
-  background-color: var(--primaryColor);
-  border: 0.1em solid var(--primaryColor);
-  border-radius: 50%;
-  height: 1.2em;
-  width: 1.2em;
-}
-.ChecklistWidget .list .check-check:not(:checked) + label {
-  color: #6b6b6b;
-}
-.ChecklistWidget .list .check-check:not(:checked) + label::before {
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-}
-.ChecklistWidget .list .check-check:not(:checked) + label::after {
-  background-color: transparent;
-  border: 0.1em solid #9e9e9e;
 }
 
 .ChecklistWidget .list .check-text {
@@ -91,7 +32,7 @@
   width: 100%;
 }
 
-.ChecklistWidget .list .check-check:checked ~ .check-text {
+.ChecklistWidget .list .checked .check-text {
   color: #9e9e9e;
 }
 
