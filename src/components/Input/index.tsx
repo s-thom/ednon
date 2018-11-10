@@ -57,7 +57,7 @@ export default function Input(props: IInputProps) {
     value,
     type: 'text',
     onInput: changeHandler,
-    className: stringAppendWithSpace('Input-input', props.className),
+    className: 'Input-input',
   };
   if (props.id) {
     inputProps.id = props.id;
@@ -83,8 +83,10 @@ export default function Input(props: IInputProps) {
     );
   }
 
+  const wrapperClass = stringAppendWithSpace(wrapperClasses.join(' '), props.className);
+
   return (
-    <div className={wrapperClasses.join(' ')}>
+    <div className={wrapperClass}>
       <input {...inputProps} />
       {label}
       {requiredIndicator}

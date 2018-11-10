@@ -5,6 +5,7 @@ import './index.css';
 import { IProps } from '../../types';
 import Widget from '../Widget';
 import iconPath from '../../assets/sharp-speaker_notes-24px.svg';
+import Input from 'src/components/Input';
 
 interface INoteState {
   title: string;
@@ -42,6 +43,14 @@ class NotesWidget extends Widget<INoteState> {
   }
 
   @autobind
+  onTitleValueChange(value: string) {
+    this.setState({
+      ...this.state,
+      title: value,
+    });
+  }
+
+  @autobind
   onNotesChange(event: React.FormEvent) {
     this.setState({
       ...this.state,
@@ -52,13 +61,12 @@ class NotesWidget extends Widget<INoteState> {
   render() {
     return (
       <div className="NotesWidget">
-        <input
+        <Input
           className="title"
-          type="text"
-          name={`${this.props.id}-title`}
-          id={`${this.props.id}-title`}
           value={this.state.title}
-          onChange={this.onTitleChange}
+          onChange={this.onTitleValueChange}
+          id={`${this.props.id}-title`}
+          name={`${this.props.id}-title`}
         />
         <textarea
           className="notes"
