@@ -1,20 +1,14 @@
 import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
-import editIcon from '../../assets/sharp-edit-24px.svg';
 import missingIcon from '../../assets/sharp-help-24px.svg';
 import {
   IWidget,
 } from '../../types';
 
-const {
-  useState,
-} = React;
-
 interface IMenuProps {
   widgetTypes: Map<string, IWidget>;
   onNewItemClick: (type: string) => void;
-  onEditModeChange: (mode: boolean) => void;
 }
 
 interface IWidgetButtonProps {
@@ -45,31 +39,8 @@ function WidgetButton(props: IWidgetButtonProps) {
 }
 
 export default function Menu(props: IMenuProps) {
-  const [editActive, setEditActive] = useState(false);
-
-  function toggleEditState() {
-    const newMode = !editActive;
-    setEditActive(newMode);
-
-    props.onEditModeChange(newMode);
-  }
-
-  const editClasses = ['menu-item'];
-  if (editActive) {
-    editClasses.push('active');
-  }
-
   return (
     <div className="Menu">
-      <div className="menu-section edit-mode">
-        <button
-          className={editClasses.join(' ')}
-          onClick={toggleEditState}
-        >
-          <ReactSVG path={editIcon} className="icon"></ReactSVG>
-          <span className="item-title">Edit</span>
-        </button>
-      </div>
       <div className="menu-section add-items">
         {
           Array.from(props.widgetTypes.entries())

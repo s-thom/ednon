@@ -70,7 +70,7 @@
   padding: 0;
   top: 0em;
   right: 0em;
-  font-size: 0em;
+  font-size: 1em;
   transition: font-size 0.3s ease-out;
   z-index: 10;
 }
@@ -80,10 +80,6 @@
   height: 1em;
   width: 1em;
   margin: 0 auto;
-}
-
-.Grid.removing .remove-button {
-  font-size: 1em;
 }
 
 .Grid .missing {

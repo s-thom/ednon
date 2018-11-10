@@ -6,7 +6,6 @@ import MessageHelper from '../../MessageHelper';
 import StorageHelper from '../../StorageHelper';
 import WidgetMap from '../../WidgetMap';
 import Menu from '../Menu';
-import autobind from 'autobind-decorator';
 import {
   IDefinition,
   IDisplayMessage,
@@ -17,66 +16,26 @@ import {
 } from '../../util';
 import MessageList from '../MessageList';
 
-interface IAppState {
-  messages: IDisplayMessage[];
-  widgets?: IDefinition[];
-  editing: boolean;
-}
+const {
+  useState,
+  useEffect,
+} = React;
+
+export default function App() {
+  const [messages, setMessages] = useState<IDisplayMessage[]>([]);
+  const [widgets, setWidgets] = useState<IDefinition[]>(null);
+
+  const storage = StorageHelper.getInstance();
+  const messageHelper = MessageHelper.getInstance();
 
 // tslint:disable:no-floating-promises
-// tslint:disable-next-line:no-any
-class App extends React.Component<any, IAppState> {
-  private readonly storage: StorageHelper;
-  private readonly messageHelper: MessageHelper;
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      messages: [],
-      widgets: undefined,
-      editing: false,
-    };
-
-    this.messageHelper = MessageHelper.getInstance();
-    // tslint:disable-next-line:no-unbound-method
-    this.messageHelper.addListener(this.onMessageAdd);
-
-    this.storage = StorageHelper.getInstance();
-    this.storage.ready()
-      .then((isReady) => {
-        if (!isReady) {
-          this.messageHelper.send(MessageSeverity.ERROR, 'Unable to open database', 'Further information is available in the developer tools');
-          return undefined;
-        }
-
-        this.getListAndSetState();
-      });
-  }
-
-  componentWillUnmount() {
-    // tslint:disable-next-line:no-unbound-method
-    this.messageHelper.removeListener(this.onMessageAdd);
-  }
-
-  getListAndSetState() {
-    this.storage.getAllWidgets()
-      .then((list) => {
-        this.setState({
-          ...this.state,
-          widgets: list,
-        });
-      });
-  }
-
-  @autobind
-  onNewItemToAdd(type: string) {
-    if (!this.state.widgets) {
-      this.messageHelper.send(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+  function onNewItemToAdd(type: string) {
+    if (!widgets) {
+      messageHelper.send(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
       return;
     }
 
-    const list = [...this.state.widgets];
+    const list = widgets.slice();
 
     const newWidget: IDefinition = {
       id: generateId(),
@@ -84,83 +43,82 @@ class App extends React.Component<any, IAppState> {
       data: {},
     };
     list.push(newWidget);
-    this.storage.newWidget(newWidget);
+    storage.newWidget(newWidget);
 
-    this.setState({
-      ...this.state,
-      widgets: list,
-    });
+    setWidgets(list);
   }
 
-  @autobind
-  onItemToRemove(id: string) {
-    if (!this.state.widgets) {
-      this.messageHelper.send(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
+  function onItemToRemove(id: string) {
+    if (!widgets) {
+      messageHelper.send(MessageSeverity.WARN, 'Please wait', 'The application is still loading, try again later');
       return;
     }
 
-    const list = this.state.widgets.filter((d) => d.id !== id);
-    this.storage.removeWidget(id);
+    const list = widgets.filter((d) => d.id !== id);
+    storage.removeWidget(id);
 
-    this.setState({
-      ...this.state,
-      widgets: list,
-    });
+    setWidgets(list);
   }
 
-  @autobind
-  onEditModeChange(mode: boolean) {
-    this.setState({
-      ...this.state,
-      editing: mode,
-    });
-  }
-
-  @autobind
-  onMessageAdd(message: IDisplayMessage) {
-    const list = [...this.state.messages];
+  function onMessageAdd(message: IDisplayMessage) {
+    const list = messages.slice();
     list.push(message);
 
-    this.setState({
-      ...this.state,
-      messages: list,
-    });
+    setMessages(list);
   }
 
-  @autobind
-  onMessageRemove(id: string) {
-    const list = this.state.messages.filter((m) => m.id !== id);
+  function onMessageRemove(id: string) {
+    const list = messages.filter((m) => m.id !== id);
 
-    this.setState({
-      ...this.state,
-      messages: list,
-    });
+    setMessages(list);
   }
 
-  render() {
-    // tslint:disable:no-unbound-method
-    return (
-      <div className="App">
-        <Menu
-          widgetTypes={WidgetMap}
-          onNewItemClick={this.onNewItemToAdd}
-          onEditModeChange={this.onEditModeChange}
-        />
-        <Grid
-          widgets={this.state.widgets}
-          widgetTypes={WidgetMap}
-          onWidgetRemove={this.onItemToRemove}
-          showRemoveIcons={this.state.editing}
-        />
-        <MessageList
-          messages={this.state.messages}
-          onMessageRemoveClick={this.onMessageRemove}
-        />
-      </div>
-    );
-    // tslint:enable:no-unbound-method
+  async function getListAndSetState() {
+    // tslint:disable-next-line:no-console
+    console.log('Getting things to display');
+    const list = await storage.getAllWidgets();
+    setWidgets(list);
   }
+
+  useEffect(() => {
+    messageHelper.addListener(onMessageAdd);
+
+    return () => {
+      messageHelper.removeListener(onMessageAdd);
+    };
+  });
+
+  useEffect(() => {
+    storage.ready()
+      .then((isReady) => {
+        if (!isReady) {
+          messageHelper.send(MessageSeverity.ERROR, 'Unable to open database', 'Further information is available in the developer tools');
+          return undefined;
+        }
+
+        getListAndSetState();
+      });
+  // Note: Passing storage (a singleton) as the effect checking parameter. This (should) mean that the effect only
+  // gets run once for each "instance" of this component
+  // tslint:disable-next-line:align
+  }, [storage]);
+  // tslint:enable:no-floating-promises
+
+  return (
+    <div className="App">
+      <Menu
+        widgetTypes={WidgetMap}
+        onNewItemClick={onNewItemToAdd}
+      />
+      <Grid
+        widgets={widgets}
+        widgetTypes={WidgetMap}
+        onWidgetRemove={onItemToRemove}
+      />
+      <MessageList
+        messages={messages}
+        onMessageRemoveClick={onMessageRemove}
+      />
+    </div>
+  );
 }
-// tslint:enable:no-floating-promises
-
-export default App;
