@@ -32,7 +32,7 @@ export default function Textarea(props: ITextareaProps) {
     setValue(val);
 
     if (props.onChange) {
-      props.onChange(value);
+      props.onChange(val);
     }
   }
 

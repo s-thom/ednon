@@ -78,6 +78,24 @@ export default class StorageHelper {
       });
   }
 
+  saveWidgetKey(widgetId: string, key: string, value: any) {
+     return this.dbPromise
+      .then(db => db.transaction(['widgets'], 'readwrite'))
+      .then(async (transaction) => {
+        const store = transaction.objectStore('widgets');
+        const widget = await store.get(widgetId);
+        try {
+          if (widget.data) {
+            widget.data[key] = value;
+          }
+        } catch (err) {
+          console.error(`Tried to update state of widget ${widgetId}, but it does not exist`);
+          return null;
+        }
+        return store.put(widget);
+      });
+  }
+
   getAllWidgets() {
     return this.dbPromise
       .then(db => db.transaction(['widgets'], 'readonly'))

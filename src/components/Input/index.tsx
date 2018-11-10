@@ -49,7 +49,7 @@ export default function Input(props: IInputProps) {
     setValue(val);
 
     if (props.onChange) {
-      props.onChange(value);
+      props.onChange(val);
     }
   }
 
