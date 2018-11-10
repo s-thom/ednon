@@ -14,6 +14,7 @@ import {
 import Input from '../../components/Input';
 import Checkbox from '../../components/Checkbox';
 import useStoredState from '../../useStoredState';
+import Card from '../../components/Card';
 
 interface IChecklistItem {
   id: string;
@@ -112,7 +113,7 @@ function ChecklistWidget(props: IProps<IChecklistState>) {
   }
 
   return (
-    <div className="ChecklistWidget">
+    <Card className="ChecklistWidget">
       <Input
         className="title"
         name={`${props.id}-title`}
@@ -139,7 +140,7 @@ function ChecklistWidget(props: IProps<IChecklistState>) {
       >
         <ReactSVG path={addIcon} className="icon" />
       </button>
-    </div>
+    </Card>
   );
 }
 

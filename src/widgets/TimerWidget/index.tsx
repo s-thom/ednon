@@ -11,6 +11,7 @@ import pauseIcon from '../../assets/sharp-pause-24px.svg';
 import Input from '../../components/Input';
 import useStoredState from '../../useStoredState';
 import TimerDisplay from '../../components/TimerDisplay';
+import Card from '../../components/Card';
 
 interface ITimerState {
   title: string;
@@ -53,7 +54,7 @@ function TimerWidget(props: IProps<ITimerState>) {
   };
 
   return (
-    <div className="TimerWidget">
+    <Card className="TimerWidget">
       <Input
         className="title"
         value={title}
@@ -70,7 +71,7 @@ function TimerWidget(props: IProps<ITimerState>) {
         </button>
       </div>
       <TimerDisplay {...displayProps} />
-    </div>
+    </Card>
   );
 }
 
