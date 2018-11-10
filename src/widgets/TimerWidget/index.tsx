@@ -11,17 +11,16 @@ import TimerDisplay from '../../components/TimerDisplay';
 
 interface ITimerState {
   title: string;
-  startTime: number;
-  previous: number;
+  savedTime: number;
   running: boolean;
 }
 
 export default function TimerWidget(props: IProps<ITimerState>) {
   const [title, setTitle] = useStoredState(props, 'title', 'New Timer');
-  const [startTime, setStartTime] = useStoredState(props, 'startTime', undefined);
-  const [previous, setPrevious] = useStoredState(props, 'previous', 0);
+  const [savedTime, setSavedTime] = useStoredState(props, 'savedTime', 0);
   const [running, setRunning] = useStoredState(props, 'running', false);
-  console.log(title, startTime, previous, running);
+
+  const [startDate, setStartDate] = React.useState(0);
 
   function onTitleValueChange(value: string) {
     setTitle(value);
@@ -30,20 +29,23 @@ export default function TimerWidget(props: IProps<ITimerState>) {
     if (running) {
       // Stop
       setRunning(false);
-      const diff = Date.now() - startTime;
-      setPrevious(diff);
+      const diff = Date.now() - startDate;
+      setSavedTime(savedTime + diff);
+      setStartDate(0);
     } else {
-      setStartTime(Date.now() - previous);
+      setStartDate(Date.now());
       setRunning(true);
     }
   }
 
-  const previousNow = new Date(Date.now() - previous);
-  const actualStartTime = (running && startTime) ? new Date(startTime) : previousNow;
+  const now = Date.now();
+  const apparentStart = new Date(now - savedTime);
+  const apparentEnd = running ? undefined : new Date(now);
+
   const displayProps = {
     className: 'timer',
-    startTime: actualStartTime,
-    endTime: running ? undefined : actualStartTime,
+    startTime: apparentStart,
+    endTime: running ? undefined : apparentEnd,
   };
 
   return (
