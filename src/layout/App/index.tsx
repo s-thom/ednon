@@ -14,7 +14,7 @@ import {
 import {
   generateId,
 } from '../../util';
-import MessageList from '../MessageList';
+import MessageList from '../../components/MessageList';
 
 const {
   useState,
