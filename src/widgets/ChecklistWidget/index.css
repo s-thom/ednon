@@ -44,9 +44,13 @@
   outline: none;
   font-size: 1.3em;
   fill: var(--primaryColor);
+  padding: 0.1em;
+  width: 1.2em;
+  height: 1.2em;
+  align-self: center;
 }
 
-.Grid.removing .ChecklistWidget .list .remove {
+.ChecklistWidget .list .Checklist-item:hover .remove {
   display: initial;
 }
 
