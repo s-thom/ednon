@@ -1,0 +1,26 @@
+.JsWidget {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 0.3em;
+  grid-template-areas:
+    "title title"
+    "history history"
+    "prompt prompt";
+}
+
+.JsWidget .title {
+  font-size: 1.3em;
+  grid-area: title;
+}
+
+.JsWidget .history-list {
+  font-size: 1.3em;
+  grid-area: history;
+  overflow-y: scroll;
+  max-height: 10em;
+}
+
+.JsWidget .input {
+  font-size: 1.3em;
+  grid-area: prompt;
+}

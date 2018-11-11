@@ -17,6 +17,7 @@ interface IInputProps {
   required?: boolean;
   pattern?: RegExp;
   onChange?: (value: string) => void;
+  onEnter?: () => void;
   className?: string;
   name?: string;
 }
@@ -55,10 +56,19 @@ export default function Input(props: IInputProps) {
     }
   }
 
+  function keyHandler(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      if (props.onEnter) {
+        props.onEnter();
+      }
+    }
+  }
+
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
     value,
     type: 'text',
     onChange: changeHandler,
+    onKeyPress: keyHandler,
     className: 'Input-input',
   };
   if (props.id) {
