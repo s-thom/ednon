@@ -16,6 +16,7 @@ import Card from '../../components/Card';
 interface ITimerState {
   title: string;
   savedTime: number;
+  startTime: number;
   running: boolean;
 }
 
@@ -23,8 +24,7 @@ function TimerWidget(props: IProps<ITimerState>) {
   const [title, setTitle] = useStoredState(props, 'title', 'New Timer');
   const [savedTime, setSavedTime] = useStoredState(props, 'savedTime', 0);
   const [running, setRunning] = useStoredState(props, 'running', false);
-
-  const [startDate, setStartDate] = React.useState(0);
+  const [startDate, setStartDate] = useStoredState(props, 'startTime', 0);
 
   function onTitleValueChange(value: string) {
     setTitle(value);
