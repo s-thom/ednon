@@ -12,13 +12,12 @@ import Card from '../../components/Card';
 const {
   useState,
   useEffect,
-  useRef,
 } = React;
 
 interface IJsHistoryItem {
   isResult: boolean;
   value: string;
-  success?: boolean;
+  success: boolean;
 }
 
 interface IJsState {
@@ -31,9 +30,15 @@ interface IHistoryListProps {
 }
 
 function HistoryItem(props: IJsHistoryItem) {
+  const classes = [
+    'history-item',
+    props.success ? 'success' : 'error',
+  ];
+
   return (
-    <div className="history-item">
-      <div className="input">{props.value}</div>
+    <div className={classes.join(' ')}>
+      <div className={`direction-indicator ${props.isResult ? 'left' : 'right'}`} />
+      <div className="content">{props.value}</div>
     </div>
   );
 }
@@ -50,23 +55,33 @@ function HistoryList(props: IHistoryListProps) {
 
 function JsWidget(props: IProps<IJsState>) {
   const [title, setTitle] = useStoredState(props, 'title', 'New Console');
-  const [storedHistory, setHistory] = useStoredState(props, 'history', []);
-
-  const historyRef = useRef(storedHistory);
+  const [history, setHistory] = useStoredState(props, 'history', []);
 
   const [input, setInput] = useState('');
+  const [futureHistoryItems, setFutureHistoryItems] = useState<IJsHistoryItem[]>([]);
+
+  function queueHistoryItem(...items: IJsHistoryItem[]) {
+    const newList = futureHistoryItems.slice();
+    newList.push(...items);
+    setFutureHistoryItems(newList);
+  }
+
+  // Effect that will run whenever there's something to add to the console
+  useEffect(() => {
+    if (futureHistoryItems.length) {
+      const newHistory = history.slice();
+      newHistory.push(...futureHistoryItems);
+      setHistory(newHistory);
+      setFutureHistoryItems([]);
+    }
+  // tslint:disable-next-line:align
+  }, [futureHistoryItems.length]);
 
   function onTitleValueChange(value: string) {
     setTitle(value);
   }
   function onInputValueChange(value: string) {
     setInput(value);
-  }
-
-  function addHistoryItem(item: IJsHistoryItem) {
-    const newHistory = historyRef.current.slice();
-    newHistory.push(item);
-    setHistory(newHistory);
   }
 
   function onPromptEnter() {
@@ -76,37 +91,49 @@ function JsWidget(props: IProps<IJsState>) {
 
     const str = `return (async () => {return ${input}})()`;
 
-    const historyItem: IJsHistoryItem = {
-      isResult: false,
-      value: input,
-    };
-    addHistoryItem(historyItem);
+    setInput('');
+    const toAdd: IJsHistoryItem[] = [
+      {
+        isResult: false,
+        value: input,
+        success: true,
+      },
+    ];
 
-    console.log(str);
-    const fn = new Function(str);
-    console.log(fn);
+    let fn: Function;
+    try {
+      fn = new Function(str);
+    } catch (err) {
+      toAdd.push({
+        isResult: true,
+        success: false,
+        value: err.message,
+      });
+      return;
+    } finally {
+      queueHistoryItem(...toAdd);
+    }
+
     // tslint:disable-next-line:no-any
     const promise: Promise<any> = fn();
 
     promise
       .then(
         (result) => {
-          addHistoryItem({
+          queueHistoryItem({
             isResult: true,
             success: true,
             value: JSON.stringify(result),
           });
         },
         (err) => {
-          addHistoryItem({
+          queueHistoryItem({
             isResult: true,
             success: false,
-            value: JSON.stringify((err instanceof Error) ? err.message : err),
+            value: (err instanceof Error) ? err.message : JSON.stringify(err),
           });
         },
       );
-
-    setInput('');
   }
 
   return (
@@ -119,23 +146,25 @@ function JsWidget(props: IProps<IJsState>) {
         name={`${props.id}-title`}
       />
       <HistoryList
-        history={historyRef.current}
+        history={history}
       />
-      <Input
-        className="input"
-        value={input}
-        onChange={onInputValueChange}
-        onEnter={onPromptEnter}
-        id={`${props.id}-input`}
-        name={`${props.id}-input`}
-        placeholder=">"
-      />
+      <div className="prompt-container">
+        <div className="direction-indicator active right" />
+        <Input
+          className="input"
+          value={input}
+          onChange={onInputValueChange}
+          onEnter={onPromptEnter}
+          id={`${props.id}-input`}
+          name={`${props.id}-input`}
+        />
+      </div>
     </Card>
   );
 }
 
 const definition: IWidget = {
-  title: 'Console',
+  title: 'Prompt',
   iconPath,
   component: JsWidget,
 };
