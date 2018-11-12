@@ -54,7 +54,7 @@ function HistoryList(props: IHistoryListProps) {
 }
 
 function JsWidget(props: IProps<IJsState>) {
-  const [title, setTitle] = useStoredState(props, 'title', 'New Console');
+  const [title, setTitle] = useStoredState(props, 'title', 'New Prompt');
   const [history, setHistory] = useStoredState(props, 'history', []);
 
   const [input, setInput] = useState('');
