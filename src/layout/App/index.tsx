@@ -37,11 +37,14 @@ export default function App() {
 
     const list = widgets.slice();
 
+    // Find the highest position in the current array, so the new widget can be put at the end
+    const highestPosition = widgets.reduce((p, c) => (c.position !== undefined && c.position > p) ? c.position : p, 0);
+
     const newWidget: IDefinition = {
       id: generateId(),
       type,
       data: {},
-      position: widgets.length,
+      position: highestPosition + 1,
     };
     list.push(newWidget);
     storage.newWidget(newWidget);
