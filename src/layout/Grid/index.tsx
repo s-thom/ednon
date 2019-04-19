@@ -33,6 +33,7 @@ export default function Grid(props: IGridProps) {
           id={def.id}
           type={def.type}
           data={def.data}
+          position={def.position}
         />
         ) : (
           <ReactSVG path={missingIcon} className="missing"></ReactSVG>
