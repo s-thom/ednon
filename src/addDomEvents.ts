@@ -3,17 +3,27 @@ import {
   MessageSeverity,
 } from './types';
 
+const LS_INSTALL_PROMPT = 'install-prompt-shown';
+
 // tslint:disable-next-line:no-any
 let installEvent: any = null;
 const messageHelper = MessageHelper.getInstance();
 
 function onBeforeInstallPrompt(event: Event) {
+  // If the prompt has been shown, don't show again
+  if (localStorage.getItem(LS_INSTALL_PROMPT)) {
+    return;
+  }
+
   event.preventDefault();
   installEvent = event;
   messageHelper.send(MessageSeverity.NONE, 'Add to Home Screen', 'EdNon can be added to your device\'s home screen for easy access. Would you like to do this?', [{
     text: 'Add to Home Screen',
     onClick: onUserWantInstall,
   }]);
+
+  // Mark the prompt as shown
+  localStorage.setItem(LS_INSTALL_PROMPT, Date.now().toString());
 }
 
 function onUserWantInstall() {
