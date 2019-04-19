@@ -2,6 +2,7 @@ export interface IDefinition<State extends IState = IState> {
   id: string;
   type: string;
   data: State;
+  position: number;
 }
 
 export interface IProps<State extends IState> extends IDefinition<State> {

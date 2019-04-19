@@ -41,6 +41,7 @@ export default function App() {
       id: generateId(),
       type,
       data: {},
+      position: widgets.length,
     };
     list.push(newWidget);
     storage.newWidget(newWidget);
@@ -77,6 +78,17 @@ export default function App() {
     // tslint:disable-next-line:no-console
     console.log('Getting things to display');
     const list = await storage.getAllWidgets();
+    list.sort((a, b) => {
+      if (a.position === undefined && b.position === undefined) {
+        return 0;
+      } else if (a.position === undefined) {
+        return -1;
+      } else if (b.position === undefined) {
+        return 1;
+      } else {
+        return a.position - b.position;
+      }
+    });
     setWidgets(list);
   }
 

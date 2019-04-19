@@ -84,7 +84,7 @@ export default class StorageHelper {
     return store.put(widget);
   }
 
-  async getAllWidgets() {
+  async getAllWidgets(): Promise<IDefinition[]> {
     const db = await this.dbPromise;
     const transaction = db.transaction(['widgets'], 'readonly');
     const store = transaction.objectStore('widgets');
