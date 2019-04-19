@@ -2,6 +2,7 @@ import * as React from 'react';
 import ReactSVG from 'react-svg';
 import './index.css';
 import missingIcon from '../../assets/sharp-help-24px.svg';
+import githubIcon from '../../assets/github.svg';
 import {
   IWidget,
 } from '../../types';
@@ -39,6 +40,10 @@ function WidgetButton(props: IWidgetButtonProps) {
 }
 
 export default function Menu(props: IMenuProps) {
+  function openGithubLink() {
+    window.open('https://github.com/s-thom/ednon', '_blank');
+  }
+
   return (
     <div className="Menu">
       <div className="menu-section add-items">
@@ -50,6 +55,14 @@ export default function Menu(props: IMenuProps) {
               onClick={() => props.onNewItemClick(type)}
             />)
         }
+      </div>
+      <div className="menu-section info-area">
+        <a
+          className="menu-icon-link github"
+          href="https://github.com/s-thom/ednon"
+        >
+          <ReactSVG path={githubIcon} className="icon"></ReactSVG>
+        </a>
       </div>
     </div>
   );
