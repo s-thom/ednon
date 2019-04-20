@@ -11,6 +11,11 @@ import {
 const DB_NAME = 'ednon';
 const DB_VERSION = 2;
 
+interface IStoredPreference<T = any> {
+  id: string;
+  value: T;
+}
+
 export default class StorageHelper {
   private static instance: StorageHelper;
   private readonly dbPromise: Promise<DB>;
@@ -108,9 +113,10 @@ export default class StorageHelper {
   async getPreference<T = any>(name: string): Promise<T> {
     const db = await this.dbPromise;
     const transaction = db.transaction(['prefs'], 'readonly');
-    const store = transaction.objectStore('prefs');
+    const store = transaction.objectStore<IStoredPreference<T>>('prefs');
     try {
-      return store.get(name);
+      const item = await store.get(name);
+      return item.value;
     } catch (err) {
       console.error(`Tried to get preference ${name} but it does not exist`);
       return undefined;
@@ -120,7 +126,10 @@ export default class StorageHelper {
   async setPreference<T = any>(name: string, value: T) {
     const db = await this.dbPromise;
     const transaction = db.transaction(['prefs'], 'readwrite');
-    const store = transaction.objectStore('prefs');
-    await store.put(value, name);
+    const store = transaction.objectStore<IStoredPreference<T>>('prefs');
+    await store.put({
+      id: name,
+      value,
+    });
   }
 }
