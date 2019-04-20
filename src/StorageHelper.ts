@@ -9,7 +9,7 @@ import {
 } from './types';
 
 const DB_NAME = 'ednon';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 export default class StorageHelper {
   private static instance: StorageHelper;
@@ -27,11 +27,17 @@ export default class StorageHelper {
     this.dbPromise = idb.open(DB_NAME, DB_VERSION, (db) => {
       switch (db.oldVersion) {
         // NOTE: Lack of breaks inbetween cases is intentional
+        /* tslint:disable:no-switch-case-fall-through switch-final-break */
         case 0:
           db.createObjectStore('widgets', {
             keyPath: 'id',
           });
-          break;
+        case 1:
+          db.createObjectStore('prefs', {
+            keyPath: 'id',
+          });
+        case 2:
+        /* tslint:enable: no-switch-case-fall-through switch-final-break */
       }
     });
   }
@@ -99,4 +105,22 @@ export default class StorageHelper {
     await store.delete(widgetId);
   }
 
+  async getPreference<T = any>(name: string): Promise<T> {
+    const db = await this.dbPromise;
+    const transaction = db.transaction(['prefs'], 'readonly');
+    const store = transaction.objectStore('prefs');
+    try {
+      return store.get(name);
+    } catch (err) {
+      console.error(`Tried to get preference ${name} but it does not exist`);
+      return undefined;
+    }
+  }
+
+  async setPreference<T = any>(name: string, value: T) {
+    const db = await this.dbPromise;
+    const transaction = db.transaction(['prefs'], 'readwrite');
+    const store = transaction.objectStore('prefs');
+    await store.put(value, name);
+  }
 }
