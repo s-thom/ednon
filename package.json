@@ -1,6 +1,6 @@
 {
   "name": "dashboard-concept",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "dependencies": {
     "autobind-decorator": "^2.1.0",
